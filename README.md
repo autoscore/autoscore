@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
     ## Loading autoscore
 
-    ## ── autoscore 0.3.7 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── learn more at tysonbarrett.com ──
+    ## ── autoscore 0.3.8 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── learn more at tysonbarrett.com ──
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
@@ -12,7 +12,7 @@ Status](https://travis-ci.org/TysonStanley/autoscore.svg?branch=master)](https:/
 `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 ===============================================================================================
 
-> R Package: 0.3.7 <br> Shiny App: temporary location at
+> R Package: 0.3.8 <br> Shiny App: temporary location at
 > <https://tysonstanley.shinyapps.io/autoscore/>
 
 *Authors:*
@@ -28,13 +28,13 @@ program uses a flexible number of rules that determine whether a
 response set of words (i.e., listener transcriptions) match a target set
 of words (i.e., speech corpus). At the most basic level, Autoscore
 counts words in the listener transcript as correct if they match the
-words in the target phrase exactly (regardless of word order), or match
-a homophone or common misspelling of the target word. Individual rules
-can be applied or removed, depending on the needs of researcher and the
-scoring rules of the research lab. Examples of rules available in
-Autoscore include the ability to count as correct substitutions of
-articles (A for The) or differences in plural or tense (adding -s or -ed
-to a word). Additional rules can be added by the researcher as needed.
+words in the target phrase exactly (regardless of word order).
+Individual rules can be applied or removed, depending on the needs of
+researcher and the scoring rules of the research lab. Examples of rules
+available in Autoscore include the ability to count as correct
+substitutions of articles (A for The) or differences in plural or tense
+(adding -s or -ed to a word). Additional rules can be added by the
+researcher as needed.
 
 The rule options are categorized into either spelling rules or grammar
 rules.
@@ -114,7 +114,7 @@ To install the package use the developmental version as it is not yet on
 CRAN.
 
 ``` r
-devtools::install_github("tysonstanley/autoscore_package")
+devtools::install_github("autoscore/autoscore")
 ```
 
 An example of the use of `autoscore` is below. We will use the example
@@ -122,12 +122,12 @@ data set provided in the package.
 
 ``` r
 library(tidyverse)
-#> ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1.9000 ──
+#> ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1.9000 ──
 #> ✔ ggplot2 3.0.0.9000      ✔ purrr   0.2.5      
 #> ✔ tibble  1.4.99.9004     ✔ dplyr   0.7.99.9000
 #> ✔ tidyr   0.8.1           ✔ stringr 1.3.1      
 #> ✔ readr   1.2.0           ✔ forcats 0.3.0
-#> ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 library(autoscore)
