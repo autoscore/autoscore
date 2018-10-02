@@ -1,0 +1,43 @@
+Package: autoscore
+Type: Package
+Title: Automatically Score Word Identification in Speech Perception
+Version: 0.3.8
+Date: 2018-09-21
+Authors@R: c(person("Tyson S.", "Barrett",  
+                    role=c("aut","cre"), 
+                    email = "t.barrett@aggiemail.usu.edu", 
+                    comment = c(ORCID = "0000-0002-2137-1391")),
+ 	         person("Sarah E.", "Yoho", role="ctr"),
+ 	         person("Stephanie A.", "Borrie", role="ctr"))
+Maintainer: Tyson S. Barrett <t.barrett@aggiemail.usu.edu>
+Description: Automatically scores orthographic listener transcripts for words correctly identified. 
+    This is useful for speech perception research, such as studies examining listener understanding 
+    of speech in background noise or disordered speech, as well as clinical disciplines where 
+    listener perception of words correct are used to determine intelligibility of client’s speech or 
+    their ability to understand speech.
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 2.10)
+Imports:
+    knitr,
+    magrittr,
+    cli,
+    crayon,
+    dplyr,
+    rstudioapi,
+    tibble,
+    purrr,
+    tidyr,
+    tm,
+    stringr
+Suggests:
+    SnowballC,
+    tidyverse,
+    rmarkdown,
+    testthat,
+    MASS,
+    sjmisc,
+    covr
+RoxygenNote: 6.1.0
