@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
     ## Loading autoscore
 
-    ## ── autoscore 0.3.8 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── learn more at tysonbarrett.com ──
+    ## ── autoscore 0.3.8 ───────────────────────────────────────────────────────────────── learn more at tysonbarrett.com ──
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
@@ -122,18 +122,11 @@ data set provided in the package.
 
 ``` r
 library(tidyverse)
-#> ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1.9000 ──
-#> ✔ ggplot2 3.0.0.9000      ✔ purrr   0.2.5      
-#> ✔ tibble  1.4.99.9004     ✔ dplyr   0.7.99.9000
-#> ✔ tidyr   0.8.1           ✔ stringr 1.3.1      
-#> ✔ readr   1.2.0           ✔ forcats 0.3.0
-#> ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
 library(autoscore)
 
 data("example_data")
 example_data
+
 #> # A tibble: 40 x 4
 #>       Id Target                      Response                    human
 #>    <dbl> <chr>                       <chr>                       <dbl>
@@ -157,6 +150,7 @@ output.
 example_data %>%
   autoscore() %>%   ## using all the defaults
   as.tibble()       ## to shorted output
+  
 #> # A tibble: 40 x 6
 #>       id target                response              human autoscore equal
 #>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
@@ -179,6 +173,7 @@ Next, let’s change some of the rules.
 example_data %>%
   autoscore(plural_rule = FALSE, tense_rule = FALSE) %>%
   as.tibble()
+  
 #> # A tibble: 40 x 6
 #>       id target                response              human autoscore equal
 #>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
@@ -201,6 +196,7 @@ the computation.
 ``` r
 example_data %>%
   autoscore(output = "none")
+  
 #> # A tibble: 40 x 10
 #>       id target response human diff_target_pre diff_response_p… diff_target
 #>    <dbl> <list> <list>   <dbl> <list>          <list>           <list>     
@@ -226,6 +222,7 @@ correct.
 
 ``` r
 autoscore::acceptable_spellings
+
 #> # A tibble: 257 x 2
 #>    target   acceptable       
 #>    <chr>    <chr>            
@@ -249,6 +246,7 @@ Using this, we can provide it to the `autoscore()` function with the
 example_data %>%
   autoscore::autoscore(acceptable_df = autoscore::acceptable_spellings) %>%
   as.tibble()
+  
 #> # A tibble: 40 x 6
 #>       id target                response              human autoscore equal
 #>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
