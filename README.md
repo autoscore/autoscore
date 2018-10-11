@@ -1,9 +1,4 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-    ## Loading autoscore
-
-    ## ── autoscore 0.3.8 ────────────────────────────────────────────────────── learn more at tysonbarrett.com ──
-    ## ✔ autoscore attached
-    ## ✔ No potential conflicts found
 
 [![Travis-CI Build
 Status](https://travis-ci.org/TysonStanley/autoscore.svg?branch=master)](https://travis-ci.org/TysonStanley/autoscore)
