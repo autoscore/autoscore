@@ -20,7 +20,7 @@ devtools::load_all()
 
 # `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 
-> R Package: `r packageVersion("autoscore")` <br> Shiny App: temporary location at [https://tysonstanley.shinyapps.io/autoscore/](https://tysonstanley.shinyapps.io/autoscore/)
+> R Package: `r packageVersion("autoscore")` <br> Shiny App: [autoscore.usu.edu](http://autoscore.usu.edu)
 
 *Authors:*
 
@@ -63,7 +63,7 @@ Beyond the main analysis when using `autoscore()`, we can also call `pwc()` to g
 
 ## Use of the Online Tool
 
-Visit [https://tysonstanley.shinyapps.io/autoscore/](https://tysonstanley.shinyapps.io/autoscore/) to use the online tool. Instructions for its use are found there.
+Visit [autoscore.usu.edu](http://autoscore.usu.edu) to use the online tool. Instructions for its use are found there.
 
 <img src="man/figures/online_autoscore_snapshot.png" align="center" width="70%" height="70%" />
 

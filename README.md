@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
     ## Loading autoscore
 
-    ## ── autoscore 0.3.8 ───────────────────────────────────────────────────────────────── learn more at tysonbarrett.com ──
+    ## ── autoscore 0.3.8 ─────────────────────────────────────────────────────────────────────── learn more at tysonbarrett.com ──
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
@@ -12,8 +12,8 @@ Status](https://travis-ci.org/TysonStanley/autoscore.svg?branch=master)](https:/
 `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 ===============================================================================================
 
-> R Package: 0.3.8 <br> Shiny App: temporary location at
-> <https://tysonstanley.shinyapps.io/autoscore/>
+> R Package: 0.3.8 <br> Shiny App:
+> [autoscore.usu.edu](http://autoscore.usu.edu)
 
 *Authors:*
 
@@ -102,7 +102,7 @@ words) for each observation.
 Use of the Online Tool
 ----------------------
 
-Visit <https://tysonstanley.shinyapps.io/autoscore/> to use the online
+Visit [autoscore.usu.edu](http://autoscore.usu.edu) to use the online
 tool. Instructions for its use are found there.
 
 <img src="man/figures/online_autoscore_snapshot.png" align="center" width="70%" height="70%" />
@@ -122,11 +122,19 @@ data set provided in the package.
 
 ``` r
 library(tidyverse)
+#> ── Attaching packages ────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1.9000 ──
+#> ✔ ggplot2 3.0.0.9000     ✔ purrr   0.2.5     
+#> ✔ tibble  1.4.2          ✔ dplyr   0.7.6     
+#> ✔ tidyr   0.8.1          ✔ stringr 1.3.1     
+#> ✔ readr   1.1.1          ✔ forcats 0.3.0
+#> Warning: package 'dplyr' was built under R version 3.5.1
+#> ── Conflicts ────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
 library(autoscore)
 
 data("example_data")
 example_data
-
 #> # A tibble: 40 x 4
 #>       Id Target                      Response                    human
 #>    <dbl> <chr>                       <chr>                       <dbl>
@@ -140,7 +148,7 @@ example_data
 #>  8     1 or spent sincere aside      earth bent spent her aside      2
 #>  9     1 account for who could knock i can for hookah knock          2
 #> 10     1 connect the beer device     connected beard kindle bus      1
-#> # … with 30 more rows
+#> # ... with 30 more rows
 ```
 
 First, let’s use all the defaults and look at the first 10 rows of the
@@ -150,7 +158,6 @@ output.
 example_data %>%
   autoscore() %>%   ## using all the defaults
   as.tibble()       ## to shorted output
-  
 #> # A tibble: 40 x 6
 #>       id target                response              human autoscore equal
 #>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
@@ -164,7 +171,7 @@ example_data %>%
 #>  8     1 or spent sincere asi… earth bent spent her…     2         2 TRUE 
 #>  9     1 account for who coul… i can for hookah kno…     2         2 TRUE 
 #> 10     1 connect the beer dev… connected beard kind…     1         0 FALSE
-#> # … with 30 more rows
+#> # ... with 30 more rows
 ```
 
 Next, let’s change some of the rules.
@@ -173,7 +180,6 @@ Next, let’s change some of the rules.
 example_data %>%
   autoscore(plural_rule = FALSE, tense_rule = FALSE) %>%
   as.tibble()
-  
 #> # A tibble: 40 x 6
 #>       id target                response              human autoscore equal
 #>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
@@ -187,7 +193,7 @@ example_data %>%
 #>  8     1 or spent sincere asi… earth bent spent her…     2         2 TRUE 
 #>  9     1 account for who coul… i can for hookah kno…     2         2 TRUE 
 #> 10     1 connect the beer dev… connected beard kind…     1         0 FALSE
-#> # … with 30 more rows
+#> # ... with 30 more rows
 ```
 
 We can also change the output type to “none” to get all the data from
@@ -196,7 +202,6 @@ the computation.
 ``` r
 example_data %>%
   autoscore(output = "none")
-  
 #> # A tibble: 40 x 10
 #>       id target response human diff_target_pre diff_response_p… diff_target
 #>    <dbl> <list> <list>   <dbl> <list>          <list>           <list>     
@@ -210,7 +215,7 @@ example_data %>%
 #>  8     1 <chr … <chr [5…     2 <int [4]>       <int [5]>        <lgl [4]>  
 #>  9     1 <chr … <chr [5…     2 <int [5]>       <int [5]>        <lgl [5]>  
 #> 10     1 <chr … <chr [4…     1 <int [4]>       <int [4]>        <lgl [4]>  
-#> # … with 30 more rows, and 3 more variables: diff_response <list>,
+#> # ... with 30 more rows, and 3 more variables: diff_response <list>,
 #> #   count_target <int>, count_response <int>
 ```
 
@@ -222,7 +227,6 @@ correct.
 
 ``` r
 autoscore::acceptable_spellings
-
 #> # A tibble: 257 x 2
 #>    target   acceptable       
 #>    <chr>    <chr>            
@@ -236,7 +240,7 @@ autoscore::acceptable_spellings
 #>  8 among    amung            
 #>  9 ancient  ansient          
 #> 10 ancient  anceint          
-#> # … with 247 more rows
+#> # ... with 247 more rows
 ```
 
 Using this, we can provide it to the `autoscore()` function with the
@@ -246,7 +250,6 @@ Using this, we can provide it to the `autoscore()` function with the
 example_data %>%
   autoscore::autoscore(acceptable_df = autoscore::acceptable_spellings) %>%
   as.tibble()
-  
 #> # A tibble: 40 x 6
 #>       id target                response              human autoscore equal
 #>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
@@ -260,7 +263,7 @@ example_data %>%
 #>  8     1 or spent sincere asi… earth bent spent her…     2         2 TRUE 
 #>  9     1 account for who coul… i can for hookah kno…     2         2 TRUE 
 #> 10     1 connect the beer dev… connected beard kind…     1         0 FALSE
-#> # … with 30 more rows
+#> # ... with 30 more rows
 ```
 
 In each of these examples, it is clear that the human and “autoscore”
