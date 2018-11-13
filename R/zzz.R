@@ -19,8 +19,7 @@
     helper_msg <- text_col(crayon::italic("   Consider using `autoscore::` for each function call."))
   }
 
-  packageStartupMessage(text_col(cli::rule(left = paste0("autoscore ", autoscore_version("autoscore")),
-                                           right = "learn more at tysonbarrett.com")),
+  packageStartupMessage(text_col(cli::rule(left = paste0("autoscore ", autoscore_version("autoscore")))),
                         text_col(paste0("\n", crayon::green(cli::symbol$tick), " autoscore attached\n")),
                         confs_msg,
                         helper_msg)
