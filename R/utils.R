@@ -22,13 +22,13 @@ split_clean <- function(d){
     dplyr::mutate(target = stringr::str_to_lower(target) %>%
                     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
                     stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
-                    stringr::str_replace_all(pattern = "-", replacement = " ") %>%
-                    stringr::str_trim(),
+                    stringr::str_trim() %>%
+                    stringr::str_replace_all(pattern = "-", replacement = " "),
                   response = stringr::str_to_lower(response) %>%
                     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
                     stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
-                    stringr::str_replace_all(pattern = "-", replacement = " ") %>%
-                    stringr::str_trim()) %>%
+                    stringr::str_trim() %>%
+                    stringr::str_replace_all(pattern = "-", replacement = " ")) %>%
     dplyr::mutate(target = stringr::str_split(target, pattern = " "),
                   response = stringr::str_split(response, pattern = " "))
 }
