@@ -18,8 +18,8 @@ Status](https://travis-ci.org/TysonStanley/autoscore.svg?branch=master)](https:/
 *Authors:*
 
 -   *Tyson S. Barrett*
--   *Sarah E. Yoho*
 -   *Stephanie A. Borrie*
+-   *Sarah E. Yoho*
 
 The purpose of `autoscore` is to automatically score word identification
 in speech perception research, such as studies involving listener
