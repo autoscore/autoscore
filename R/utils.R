@@ -23,14 +23,14 @@ split_clean <- function(d){
                     stringr::str_replace_all(pattern = "-", replacement = " ") %>%
                     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
                     stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
-                    stringr::str_trim(),
+                    stringr::str_trim() %>%
+                    stringr::str_split(pattern = " "),
                   response = stringr::str_to_lower(response) %>%
                     stringr::str_replace_all(pattern = "-", replacement = " ") %>%
                     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
                     stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
-                    stringr::str_trim()) %>%
-    dplyr::mutate(target = stringr::str_split(target, pattern = " "),
-                  response = stringr::str_split(response, pattern = " "))
+                    stringr::str_trim() %>%
+                    stringr::str_split(pattern = " "))
 }
 
 plurals <- function(x, suf = "es", plural_rule, plural_add_rule){
