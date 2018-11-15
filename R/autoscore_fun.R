@@ -39,6 +39,7 @@
 #'
 #' @import dplyr
 #' @import tibble
+#' @importFrom furniture washer
 #' @importFrom stats setNames
 #' @importFrom stats na.omit
 #'

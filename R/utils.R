@@ -17,13 +17,18 @@ select_cols <- function(d){
 
 split_clean <- function(d){
   select_cols(d) %>%
+    dplyr::mutate(target = furniture::washer(target, is.na, value = ""),
+                  response = furniture::washer(response, is.na, value = "")) %>%
     dplyr::mutate(target = stringr::str_to_lower(target) %>%
-                    stringr::str_replace_all(pattern = "[[:punct:]]", replacement = ""),
+                    stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
+                    stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
+                    stringr::str_trim(),
                   response = stringr::str_to_lower(response) %>%
-                    stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "")) %>%
+                    stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
+                    stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
+                    stringr::str_trim()) %>%
     dplyr::mutate(target = stringr::str_split(target, pattern = " "),
-                  response = stringr::str_split(response, pattern = " ") %>%
-                    purrr::map(~unique(.x)))
+                  response = stringr::str_split(response, pattern = " "))
 }
 
 plurals <- function(x, suf = "es", plural_rule, plural_add_rule){
@@ -119,11 +124,55 @@ alternate_fun <- function(d, alternate_df,
 match_fun <- function(x, y, root_word_rule) {
 
   ## depending on root_word_rule should pmatch or match be used
-  switch(root_word_rule,
-         firstpart = pmatch(unique(x), unique(y)),
-         no_firstpart = match(unique(x), unique(y)))
+  if (isTRUE(root_word_rule)){
+
+    val <- vector('list', length = length(y))
+    for (i in seq_along(y)){
+
+      val[[i]] <- startsWith(y[i], x) | endsWith(y[i], x)
+
+      if (isTRUE(sum(val[[i]]) > 1L)){
+
+        ## Only keep first true
+        val[[i]][-which.max(val[[i]])] <- FALSE
+        ## change the first match to something unmatchable to avoid double matches
+        word <- unique(x[val[[i]]])
+        y[y == word][1] <- "lskdjf"
+        x[val[[i]]] <- "qwyk"
+
+      }
+    }
+
+  } else {
+
+    val <- vector('list', length = length(y))
+    for (i in seq_along(y)){
+
+      val[[i]] <- x %in% y[i]
+
+      if (isTRUE(sum(val[[i]]) > 1L)){
+
+        ## Only keep first true
+        val[[i]][-which.max(val[[i]])] <- FALSE
+        ## change the first match to something unmatchable to avoid double matches
+        word <- unique(x[val[[i]]])
+        y[y == word][1] <- "lskdjf"
+        x[val[[i]]] <- "qwyk"
+
+      }
+    }
+  }
+
+  val %>%
+    do.call("rbind", .) %>%
+    data.frame %>%
+    lapply(any) %>%
+    unlist %>%
+    which
 
 }
+
+
 
 ## Main work horse function
 match_position_basic <- function(d, alternate_df,
@@ -137,12 +186,6 @@ match_position_basic <- function(d, alternate_df,
     plural_rule   <- FALSE
     tense_add_rule <- FALSE
     plural_add_rule <- FALSE
-  }
-
-  if (isTRUE(root_word_rule)){
-    root_word_rule <- "firstpart"
-  } else {
-    root_word_rule <- "no_firstpart"
   }
 
   ## alternate_spell_rule

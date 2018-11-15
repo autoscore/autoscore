@@ -1,8 +1,8 @@
 Package: autoscore
 Type: Package
 Title: Automatically Score Word Identification in Speech Perception
-Version: 0.3.8
-Date: 2018-09-21
+Version: 0.4.0
+Date: 2018-11-12
 Authors@R: c(person("Tyson S.", "Barrett",  
                     role=c("aut","cre"), 
                     email = "t.barrett@aggiemail.usu.edu", 
@@ -31,7 +31,8 @@ Imports:
     purrr,
     tidyr,
     tm,
-    stringr
+    stringr,
+    furniture
 Suggests:
     SnowballC,
     tidyverse,
@@ -40,4 +41,4 @@ Suggests:
     MASS,
     sjmisc,
     covr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

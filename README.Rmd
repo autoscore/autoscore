@@ -72,12 +72,12 @@ Visit [autoscore.usu.edu](http://autoscore.usu.edu) to use the online tool. Inst
 
 To install the package use the developmental version as it is not yet on CRAN.
 ```{r, eval = FALSE}
-devtools::install_github("autoscore/autoscore")
+remotes::install_github("autoscore/autoscore")
 ```
 
 An example of the use of `autoscore` is below. We will use the example data set provided in the package.
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(autoscore)
 

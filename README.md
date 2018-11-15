@@ -1,4 +1,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+    ## Loading autoscore
+
+    ## ── autoscore 0.4.0 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ✔ autoscore attached
+    ## ✔ No potential conflicts found
 
 [![Travis-CI Build
 Status](https://travis-ci.org/TysonStanley/autoscore.svg?branch=master)](https://travis-ci.org/TysonStanley/autoscore)
@@ -7,14 +12,14 @@ Status](https://travis-ci.org/TysonStanley/autoscore.svg?branch=master)](https:/
 `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 ===============================================================================================
 
-> R Package: 0.3.8 <br> Shiny App:
+> R Package: 0.4.0 <br> Shiny App:
 > [autoscore.usu.edu](http://autoscore.usu.edu)
 
 *Authors:*
 
 -   *Tyson S. Barrett*
--   *Stephanie A. Borrie*
 -   *Sarah E. Yoho*
+-   *Stephanie A. Borrie*
 
 The purpose of `autoscore` is to automatically score word identification
 in speech perception research, such as studies involving listener
@@ -109,7 +114,7 @@ To install the package use the developmental version as it is not yet on
 CRAN.
 
 ``` r
-devtools::install_github("autoscore/autoscore")
+remotes::install_github("autoscore/autoscore")
 ```
 
 An example of the use of `autoscore` is below. We will use the example
@@ -134,7 +139,7 @@ example_data
 #>  8     1 or spent sincere aside      earth bent spent her aside      2
 #>  9     1 account for who could knock i can for hookah knock          2
 #> 10     1 connect the beer device     connected beard kindle bus      1
-#> # ... with 30 more rows
+#> # … with 30 more rows
 ```
 
 First, let’s use all the defaults and look at the first 10 rows of the
@@ -144,21 +149,20 @@ output.
 example_data %>%
   autoscore() %>%   ## using all the defaults
   as.tibble()       ## to shorted output
-  
 #> # A tibble: 40 x 6
-#>       id target                response              human autoscore equal
-#>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
-#>  1     1 mate denotes a judge… made the dinner in it     1         0 FALSE
-#>  2     1 rampant boasting cap… rubbed against the c…     1         1 TRUE 
-#>  3     1 resting older earring resting alert hearing     1         1 TRUE 
-#>  4     1 bolder ground from j… boulder down from dr…     2         1 FALSE
-#>  5     1 remove and name for … remember the name fo…     3         2 FALSE
-#>  6     1 done with finest han… dinner finished hand…     1         1 TRUE 
-#>  7     1 support with dock an… she put the duck in …     1         0 FALSE
-#>  8     1 or spent sincere asi… earth bent spent her…     2         2 TRUE 
-#>  9     1 account for who coul… i can for hookah kno…     2         2 TRUE 
-#> 10     1 connect the beer dev… connected beard kind…     1         0 FALSE
-#> # ... with 30 more rows
+#>       id target                 response              human autoscore equal
+#>    <dbl> <fct>                  <fct>                 <dbl>     <int> <lgl>
+#>  1     1 mate denotes a judgem… made the dinner in it     1         0 FALSE
+#>  2     1 rampant boasting capt… rubbed against the c…     1         1 TRUE 
+#>  3     1 resting older earring  resting alert hearing     1         1 TRUE 
+#>  4     1 bolder ground from ju… boulder down from dr…     2         1 FALSE
+#>  5     1 remove and name for s… remember the name fo…     3         2 FALSE
+#>  6     1 done with finest hand… dinner finished hand…     1         1 TRUE 
+#>  7     1 support with dock and… she put the duck in …     1         0 FALSE
+#>  8     1 or spent sincere aside earth bent spent her…     2         2 TRUE 
+#>  9     1 account for who could… i can for hookah kno…     2         2 TRUE 
+#> 10     1 connect the beer devi… connected beard kind…     1         0 FALSE
+#> # … with 30 more rows
 ```
 
 Next, let’s change some of the rules.
@@ -167,21 +171,20 @@ Next, let’s change some of the rules.
 example_data %>%
   autoscore(plural_rule = FALSE, tense_rule = FALSE) %>%
   as.tibble()
-  
 #> # A tibble: 40 x 6
-#>       id target                response              human autoscore equal
-#>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
-#>  1     1 mate denotes a judge… made the dinner in it     1         0 FALSE
-#>  2     1 rampant boasting cap… rubbed against the c…     1         1 TRUE 
-#>  3     1 resting older earring resting alert hearing     1         1 TRUE 
-#>  4     1 bolder ground from j… boulder down from dr…     2         1 FALSE
-#>  5     1 remove and name for … remember the name fo…     3         2 FALSE
-#>  6     1 done with finest han… dinner finished hand…     1         1 TRUE 
-#>  7     1 support with dock an… she put the duck in …     1         0 FALSE
-#>  8     1 or spent sincere asi… earth bent spent her…     2         2 TRUE 
-#>  9     1 account for who coul… i can for hookah kno…     2         2 TRUE 
-#> 10     1 connect the beer dev… connected beard kind…     1         0 FALSE
-#> # ... with 30 more rows
+#>       id target                 response              human autoscore equal
+#>    <dbl> <fct>                  <fct>                 <dbl>     <int> <lgl>
+#>  1     1 mate denotes a judgem… made the dinner in it     1         0 FALSE
+#>  2     1 rampant boasting capt… rubbed against the c…     1         1 TRUE 
+#>  3     1 resting older earring  resting alert hearing     1         1 TRUE 
+#>  4     1 bolder ground from ju… boulder down from dr…     2         1 FALSE
+#>  5     1 remove and name for s… remember the name fo…     3         2 FALSE
+#>  6     1 done with finest hand… dinner finished hand…     1         1 TRUE 
+#>  7     1 support with dock and… she put the duck in …     1         0 FALSE
+#>  8     1 or spent sincere aside earth bent spent her…     2         2 TRUE 
+#>  9     1 account for who could… i can for hookah kno…     2         2 TRUE 
+#> 10     1 connect the beer devi… connected beard kind…     1         0 FALSE
+#> # … with 30 more rows
 ```
 
 We can also change the output type to “none” to get all the data from
@@ -190,7 +193,6 @@ the computation.
 ``` r
 example_data %>%
   autoscore(output = "none")
-  
 #> # A tibble: 40 x 10
 #>       id target response human diff_target_pre diff_response_p… diff_target
 #>    <dbl> <list> <list>   <dbl> <list>          <list>           <list>     
@@ -204,7 +206,7 @@ example_data %>%
 #>  8     1 <chr … <chr [5…     2 <int [4]>       <int [5]>        <lgl [4]>  
 #>  9     1 <chr … <chr [5…     2 <int [5]>       <int [5]>        <lgl [5]>  
 #> 10     1 <chr … <chr [4…     1 <int [4]>       <int [4]>        <lgl [4]>  
-#> # ... with 30 more rows, and 3 more variables: diff_response <list>,
+#> # … with 30 more rows, and 3 more variables: diff_response <list>,
 #> #   count_target <int>, count_response <int>
 ```
 
@@ -216,7 +218,6 @@ correct.
 
 ``` r
 autoscore::acceptable_spellings
-
 #> # A tibble: 257 x 2
 #>    target   acceptable       
 #>    <chr>    <chr>            
@@ -230,7 +231,7 @@ autoscore::acceptable_spellings
 #>  8 among    amung            
 #>  9 ancient  ansient          
 #> 10 ancient  anceint          
-#> # ... with 247 more rows
+#> # … with 247 more rows
 ```
 
 Using this, we can provide it to the `autoscore()` function with the
@@ -240,21 +241,20 @@ Using this, we can provide it to the `autoscore()` function with the
 example_data %>%
   autoscore::autoscore(acceptable_df = autoscore::acceptable_spellings) %>%
   as.tibble()
-  
 #> # A tibble: 40 x 6
-#>       id target                response              human autoscore equal
-#>    <dbl> <fct>                 <fct>                 <dbl>     <int> <lgl>
-#>  1     1 mate denotes a judge… made the dinner in it     1         0 FALSE
-#>  2     1 rampant boasting cap… rubbed against the c…     1         1 TRUE 
-#>  3     1 resting older earring resting alert hearing     1         1 TRUE 
-#>  4     1 bolder ground from j… boulder down from dr…     2         2 TRUE 
-#>  5     1 remove and name for … remember the name fo…     3         3 TRUE 
-#>  6     1 done with finest han… dinner finished hand…     1         1 TRUE 
-#>  7     1 support with dock an… she put the duck in …     1         0 FALSE
-#>  8     1 or spent sincere asi… earth bent spent her…     2         2 TRUE 
-#>  9     1 account for who coul… i can for hookah kno…     2         2 TRUE 
-#> 10     1 connect the beer dev… connected beard kind…     1         0 FALSE
-#> # ... with 30 more rows
+#>       id target                 response              human autoscore equal
+#>    <dbl> <fct>                  <fct>                 <dbl>     <int> <lgl>
+#>  1     1 mate denotes a judgem… made the dinner in it     1         0 FALSE
+#>  2     1 rampant boasting capt… rubbed against the c…     1         1 TRUE 
+#>  3     1 resting older earring  resting alert hearing     1         1 TRUE 
+#>  4     1 bolder ground from ju… boulder down from dr…     2         2 TRUE 
+#>  5     1 remove and name for s… remember the name fo…     3         3 TRUE 
+#>  6     1 done with finest hand… dinner finished hand…     1         1 TRUE 
+#>  7     1 support with dock and… she put the duck in …     1         0 FALSE
+#>  8     1 or spent sincere aside earth bent spent her…     2         2 TRUE 
+#>  9     1 account for who could… i can for hookah kno…     2         2 TRUE 
+#> 10     1 connect the beer devi… connected beard kind…     1         0 FALSE
+#> # … with 30 more rows
 ```
 
 In each of these examples, it is clear that the human and “autoscore”
@@ -266,4 +266,5 @@ spellings of words as we just demonstrated).
 ### Learn More
 
 Peer-reviewed publications and further tutorials are forthcoming. For
-more information, contact <autoscorehelp@gmail.com>.
+more information, contact
+<a href="mailto:autoscorehelp@gmail.com" class="email">autoscorehelp@gmail.com</a>.
