@@ -1,12 +1,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
     ## Loading autoscore
 
-    ## ── autoscore 0.4.0 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── autoscore 0.4.0 ────────────────────────────
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
-[![Travis-CI Build
-Status](https://travis-ci.org/TysonStanley/autoscore.svg?branch=master)](https://travis-ci.org/TysonStanley/autoscore)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
