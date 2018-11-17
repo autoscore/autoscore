@@ -131,7 +131,7 @@ match_fun <- function(x, y, root_word_rule) {
     val <- vector('list', length = length(y))
     for (i in seq_along(y)){
 
-      val[[i]] <- startsWith(y[i], x) | endsWith(y[i], x)
+      val[[i]] <- startsWith(y[i], x)
 
       if (isTRUE(sum(val[[i]]) > 1L)){
 
@@ -173,7 +173,6 @@ match_fun <- function(x, y, root_word_rule) {
     which
 
 }
-
 
 
 ## Main work horse function
