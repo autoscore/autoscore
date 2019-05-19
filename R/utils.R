@@ -4,7 +4,7 @@
 select_cols <- function(d){
   d <- d %>%
     dplyr::rename_all(tolower) %>%
-    dplyr::select(contains("id"), contains("target"), contains("response"), contains("human"))
+    dplyr::select(id, target, response, contains("human"))
 
   if (ncol(d) > 4){
     stop("More than 4 columns were selected containing 'id', 'target', 'response', or 'human'", call. = FALSE)}
