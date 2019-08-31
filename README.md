@@ -2,7 +2,7 @@
 
     ## Loading autoscore
 
-    ## ── autoscore 0.4.0 ─────────────────────────────────────────────────────────────────────────────
+    ## ── autoscore 0.4.1 ─────────────────────────────────────────────────────────────────────────────
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
@@ -11,7 +11,7 @@
 `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 ===============================================================================================
 
-> R Package: 0.4.0 <br> Shiny App:
+> R Package: 0.4.1 <br> Shiny App:
 > [autoscore.usu.edu](http://autoscore.usu.edu)
 
 *Authors:*
