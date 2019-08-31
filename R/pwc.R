@@ -3,9 +3,9 @@
 #' Obtain the percent words correct from a data.frame produced by `autoscore()`.
 #'
 #' @param data data.frame containing the target, response, and autoscore columns as produced by the function `autoscore()`.
-#' @param id the id variable(s) to summarize the PWC for
+#' @param id the id variable to summarize the PWC for
 #'
-#' @return data.frame of the percent correct for each line in `data`
+#' @return data.frame of the percent correct for each "id"
 #'
 #' @import rlang
 #' @importFrom purrr map
