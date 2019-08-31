@@ -17,6 +17,7 @@ devtools::load_all()
 
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
+
 # `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 
 > R Package: `r packageVersion("autoscore")` <br> Shiny App: [autoscore.usu.edu](http://autoscore.usu.edu)
