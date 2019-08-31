@@ -2,7 +2,7 @@ Package: autoscore
 Type: Package
 Title: Automatically Score Word Identification in Speech Perception
 Version: 0.4.0
-Date: 2018-11-12
+Date: 2019-08-31
 Authors@R: c(person("Tyson S.", "Barrett",  
                     role=c("aut","cre"), 
                     email = "t.barrett@aggiemail.usu.edu", 
@@ -32,7 +32,8 @@ Imports:
     tidyr,
     tm,
     stringr,
-    furniture
+    furniture,
+    rlang
 Suggests:
     SnowballC,
     tidyverse,
