@@ -1,7 +1,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
     ## Loading autoscore
 
-    ## ── autoscore 0.4.0 ────────────────────────────
+    ## ── autoscore 0.4.0 ─────────────────────────────────────────────────────────────────────────────
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
@@ -47,11 +48,11 @@ rules.
     word counted correct if is on the acceptable spelling list. Default
     is `FALSE`.
 2.  `root_word_rule`: Response word counted correct if the target word
-    (e.g. ‘day’) is embedded at either the beginning (e.g. ‘daybreak’)
+    (e.g. ‘day’) is embedded at either the beginning (e.g. ‘daybreak’)
     of the target word. Default is `FALSE`.
 3.  `double_letter_rule`: Response word counted correct if it omitted a
-    double letter within a word (e.g. ‘atack’ matches ‘attack’) or added
-    an unnecessary double letter (e.g. ‘occassion’ matches ‘occasion’).
+    double letter within a word (e.g. ‘atack’ matches ‘attack’) or added
+    an unnecessary double letter (e.g. ‘occassion’ matches ‘occasion’).
     Default is `FALSE`.
 
 #### Grammar Rules
@@ -147,6 +148,8 @@ output.
 example_data %>%
   autoscore() %>%   ## using all the defaults
   as.tibble()       ## to shorted output
+#> Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).
+#> This warning is displayed once per session.
 #> # A tibble: 40 x 6
 #>       id target                 response              human autoscore equal
 #>    <dbl> <fct>                  <fct>                 <dbl>     <int> <lgl>
