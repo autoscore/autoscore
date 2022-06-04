@@ -6,7 +6,11 @@
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/autoscore/autoscore/workflows/R-CMD-check/badge.svg)](https://github.com/autoscore/autoscore/actions)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+<!-- badges: end -->
 
 # `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 
