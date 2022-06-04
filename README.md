@@ -27,8 +27,8 @@ The purpose of `autoscore` is to automatically score word identification
 in speech perception research, such as studies involving listener
 understanding of speech in background noise or disordered speech. The
 article first presenting the program has been cited in 20 peer-reviewed
-publications as of June 2022 [see Google
-Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073).
+publications as of June 2022 ([see Google
+Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073)).
 
 The program uses a flexible number of rules that determine whether a
 response set of words (i.e., listener transcriptions) match a target set
@@ -38,8 +38,8 @@ words in the target phrase exactly (regardless of word order).
 Individual rules can be applied or removed, depending on the needs of
 researcher and the scoring rules of the research lab. Examples of rules
 available in Autoscore include the ability to count as correct
-substitutions of articles (A for The) or differences in plural or tense
-(adding -s or -ed to a word). Additional rules can be added by the
+substitutions of articles (“a” for “the”) or differences in plural or
+tense (adding -s or -ed to a word). Additional rules can be added by the
 researcher as needed.
 
 The rule options are categorized into either spelling rules or grammar
@@ -52,7 +52,8 @@ rules.
     preloaded default acceptable spelling list (contains over 300 common
     acceptable spellings). User can also download the default acceptable
     spelling list, add/remove items, and upload for automation. Response
-    word counted correct if is on the acceptable spelling list. Default
+    word counted correct if is on the acceptable spelling list. This
+    rule is activated by providing the acceptable spelling list. Default
     is `FALSE`.
 2.  `root_word_rule`: Response word counted correct if the target word
     (e.g. ‘day’) is embedded at either the beginning (e.g. ‘daybreak’)
@@ -64,6 +65,11 @@ rules.
 4.  `number_text_rule`: Response word counted correct if using actual
     numbers (e.g. 1, 2, 100) instead of the spelled out version
     (e.g. one, two, one hundred). Default is `FALSE`.
+5.  `contractions_rule`: Response word counted correct if using the
+    contraction of the target (e.g., target is “she will” and the
+    response is “she’ll”). This rule is activated by providing
+    contractions to use (there is a default list provided). Default is
+    `FALSE`.
 
 #### Grammar Rules
 
@@ -105,7 +111,7 @@ composite of several sub-functions that do various jobs:
 
 Beyond the main analysis when using `autoscore()`, we can also call
 `pwc()` to get the percent words correct (based on the number of target
-words) for each observation.
+words) for each id.
 
 ## Use of the Online Tool
 
@@ -294,14 +300,11 @@ As of `autoscore 0.5.0` two new rules can also be used:
 `contractions_df` (which, when applied, adjusts for contraction words).
 There is also a new function called `compound_fixer()` that allows you
 to adjust compound words the way you want. The example below shows all
-three of these new features together. For the `compound_fixer()`, we
-want “junk yard” to become “junkyard” and “break fast” to become
-“breakfast”. These words are not in the default list so we add them with
-the `comp` argument. The `human` column is the correct number so we can
-compare autoscore’s results with it.
+three of these new features together. To start we make a fake data set
+with some good examples of things we want to fix.
 
 ``` r
-tibble::tribble(
+small_example <- tibble::tribble(
   ~id, ~target, ~response, ~human,
   1, "the coin ate it", "a coins for it", 1,
   2, "beat the clock", "beets the clock", 2,
@@ -315,7 +318,18 @@ tibble::tribble(
   10, "One two three", "1 2 3", 3,
   11, "Hide one thing", "hide 1", 2,
   12, "She will eat", "She'll eat", 3
-) %>%
+)
+```
+
+Then, using this data, we apply the compound fixer function and the
+number and contraction rules. For the `compound_fixer()`, we want “junk
+yard” to become “junkyard” and “break fast” to become “breakfast”. These
+words are not in the default list so we add them with the `comp`
+argument. The `human` column is the correct number so we can compare
+autoscore’s results with it.
+
+``` r
+small_example %>% 
   dplyr::mutate(response = compound_fixer(response, comp = c("junkyard" = "junk yard", "breakfast" = "break fast"))) %>% 
   autoscore(number_text_rule = TRUE,
             contractions_df = autoscore::contractions_df) 

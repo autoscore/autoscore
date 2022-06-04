@@ -39,7 +39,5 @@ Suggests:
     tidyverse,
     rmarkdown,
     testthat,
-    MASS,
-    sjmisc,
     covr
 RoxygenNote: 7.1.2
