@@ -17,7 +17,7 @@ tenses <- function(x, suf = "ed", tense_rule, tense_add_rule){
 }
 
 is_number_in_text = function(x){
-  stringr::str_detect(x, "\\d+")
+  stringr::str_detect(x, "\\d+") & !stringr::str_detect(x, "[A-Za-z]")
 }
 
 numbers_fun <- function(x, use = TRUE){
@@ -30,6 +30,15 @@ numbers_fun <- function(x, use = TRUE){
     }
   })
 }
+
+
+contractions_fun <- function(x, contraction_list){
+  for (i in 1:nrow(contraction_list)){
+    x = stringr::str_replace(x, contraction_list$contraction[i], contraction_list$replacement[i])
+  }
+  x
+}
+
 
 suffix_fun <- function(chr, use = TRUE){
   if (isTRUE(use)){
@@ -58,5 +67,60 @@ double_letter_fun <- function(chr, use = FALSE){
     chr
   } else {
     chr
+  }
+}
+
+pasttense_plurals_fun <- function(x, y, tense_rule, tense_add_rule, plural_rule, plural_add_rule, root_word_rule){
+
+  if (isTRUE(tense_rule) & isTRUE(plural_rule)){
+    ed1 <- match_fun(paste0(x, "ed"), y, root_word_rule)
+    ed2 <- match_fun(paste0(x, "d"), y, root_word_rule)
+    ed3 <- match_fun(x, paste0(y, "ed"), root_word_rule)
+    ed4 <- match_fun(x, paste0(y, "d"), root_word_rule)
+    es1 <- match_fun(paste0(x, "es"), y, root_word_rule)
+    es2 <- match_fun(paste0(x, "s"), y, root_word_rule)
+    es3 <- match_fun(x, paste0(y, "es"), root_word_rule)
+    es4 <- match_fun(x, paste0(y, "s"), root_word_rule)
+    reg <- match_fun(x, y, root_word_rule)
+    na.omit(c(ed1, ed2, ed3, ed4, es1, es2, es3, es4, reg)) %>% unique %>% as.numeric
+
+  } else if (isTRUE(plural_rule)) {
+    es1 <- match_fun(paste0(x, "es"), y, root_word_rule)
+    es2 <- match_fun(paste0(x, "s"), y, root_word_rule)
+    es3 <- match_fun(x, paste0(y, "es"), root_word_rule)
+    es4 <- match_fun(x, paste0(y, "s"), root_word_rule)
+    reg <- match_fun(x, y, root_word_rule)
+    na.omit(c(es1, es2, es3, es4, reg)) %>% unique %>% as.numeric
+
+  } else if (isTRUE(tense_rule)) {
+    ed1 <- match_fun(paste0(x, "ed"), y, root_word_rule)
+    ed2 <- match_fun(paste0(x, "d"), y, root_word_rule)
+    ed3 <- match_fun(x, paste0(y, "ed"), root_word_rule)
+    ed4 <- match_fun(x, paste0(y, "d"), root_word_rule)
+    reg <- match_fun(x, y, root_word_rule)
+    na.omit(c(ed1, ed2, ed3, ed4, reg)) %>% unique %>% as.numeric
+
+  } else if (isTRUE(tense_add_rule) & isTRUE(plural_add_rule)){
+    ed1 <- match_fun(paste0(x, "ed"), y, root_word_rule)
+    ed2 <- match_fun(paste0(x, "d"), y, root_word_rule)
+    es1 <- match_fun(paste0(x, "es"), y, root_word_rule)
+    es2 <- match_fun(paste0(x, "s"), y, root_word_rule)
+    reg <- match_fun(x, y, root_word_rule)
+    na.omit(c(ed1, ed2, es1, es2, reg)) %>% unique %>% as.numeric
+
+  } else if (isTRUE(tense_add_rule)) {
+    ed1 <- match_fun(paste0(x, "ed"), y, root_word_rule)
+    ed2 <- match_fun(paste0(x, "d"), y, root_word_rule)
+    reg <- match_fun(x, y, root_word_rule)
+    na.omit(c(ed1, ed2, reg)) %>% unique %>% as.numeric
+
+  } else if (isTRUE(plural_add_rule)){
+    es1 <- match_fun(paste0(x, "es"), y, root_word_rule)
+    es2 <- match_fun(paste0(x, "s"), y, root_word_rule)
+    reg <- match_fun(x, y, root_word_rule)
+    na.omit(c(es1, es2, reg)) %>% unique %>% as.numeric
+
+  } else {
+    match(x, y)
   }
 }

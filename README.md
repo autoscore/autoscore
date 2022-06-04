@@ -285,6 +285,64 @@ example_data %>%
 #> 2     2  20.8
 ```
 
+As of `autoscore 0.5.0` two new rules can also be used:
+`number_text_rule` (changes numbers like 1 or 2 to “one” or “two”) and
+`contractions_df` (which, when applied, adjusts for contraction words).
+There is also a new function called `compound_fixer()` that allows you
+to adjust compound words the way you want. The example below shows all
+three of these new features together. For the `compound_fixer()`, we
+want “junk yard” to become “junkyard” and “break fast” to become
+“breakfast”. These words are not in the default list so we add them with
+the `comp` argument. The `human` column is the correct number so we can
+compare autoscore’s results with it.
+
+``` r
+tibble::tribble(
+  ~id, ~target, ~response, ~human,
+  1, "the coin ate it", "a coins for it", 1,
+  2, "beat the clock", "beets the clock", 2,
+  3, "beated it", "beet it", 1,
+  4, "beets the clock", "beat the clock", 2,
+  5, "beeted the clock", "beet the clock", 2,
+  6, "junkyard", "junk yard", 1,
+  7, "Breakfast is great", "break fast is great", 3,
+  8, "The matches are on the shelf", "23  the matches are on the shelf", 6,
+  9, "The puppy played with a ball", "1  x", 0,
+  10, "One two three", "1 2 3", 3,
+  11, "Hide one thing", "hide 1", 2,
+  12, "She will eat", "She'll eat", 3
+) %>%
+  dplyr::mutate(response = compound_fixer(response, comp = c("junkyard" = "junk yard", "breakfast" = "break fast"))) %>% 
+  autoscore(number_text_rule = TRUE,
+            contractions_df = autoscore::contractions_df) 
+#>    id                       target                         response human
+#> 1   1              the coin ate it                   a coins for it     1
+#> 2   2               beat the clock                  beets the clock     2
+#> 3   3                    beated it                          beet it     1
+#> 4   4              beets the clock                   beat the clock     2
+#> 5   5             beeted the clock                   beet the clock     2
+#> 6   6                     junkyard                         junkyard     1
+#> 7   7           Breakfast is great               breakfast is great     3
+#> 8   8 The matches are on the shelf 23  the matches are on the shelf     6
+#> 9   9 The puppy played with a ball                             1  x     0
+#> 10 10                One two three                            1 2 3     3
+#> 11 11               Hide one thing                           hide 1     2
+#> 12 12                 She will eat                       She'll eat     3
+#>    autoscore equal
+#> 1          1  TRUE
+#> 2          2  TRUE
+#> 3          1  TRUE
+#> 4          2  TRUE
+#> 5          2  TRUE
+#> 6          1  TRUE
+#> 7          3  TRUE
+#> 8          6  TRUE
+#> 9          0  TRUE
+#> 10         3  TRUE
+#> 11         2  TRUE
+#> 12         3  TRUE
+```
+
 ### Learn More
 
 For more information, contact <autoscorehelp@gmail.com>.

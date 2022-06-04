@@ -2,6 +2,7 @@
 
 export("%>%")
 export(autoscore)
+export(compound_fixer)
 export(pwc)
 import(dplyr)
 import(rlang)

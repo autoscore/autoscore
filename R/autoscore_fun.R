@@ -12,7 +12,8 @@
 #' @param root_word_rule should a word that contains the target word at the beginning of the reponse word be considered correct (default = `FALSE` because does "partial" matching which can bring in some unexpected results)
 #' @param double_letter_rule should double letters within a word (the t in 'attack') be considered the same as if there is only one of that latter ('atack'); some of these will be in the common_misspell_rule; default = `FALSE`
 #' @param suffix_rule should the words be stemmed (all suffix characters removed)? (default = `FALSE`); if `TRUE`, plural_rule and tense_rule are `FALSE`
-#' @param number_text_rule should the numbers (e.g., 1, 2, 3) be written in word form (e.g., one, two, three)? (default = `FALSE`)
+#' @param number_text_rule should the numbers (e.g., 1, 2, 3) be used in word form (e.g., one, two, three) in the scoring? (default = `FALSE`)
+#' @param contractions_df list of contractions to change (e.g., "She'll" changed to "She will"). The built-in list of contractions can be seen with \code{data(contractions_df)}.
 #' @param output the output type for the autoscore table; current options are "text" (provides a cleaned data set) and "none" (which provides all data); others to follow soon
 #'
 #' @examples
@@ -57,14 +58,15 @@ autoscore <- function(.data,
                       double_letter_rule = FALSE,
                       suffix_rule = FALSE,
                       number_text_rule = FALSE,
+                      contractions_df = NULL,
                       output = "text") {
 
-  error_check_rules(suffix_rule, plural_rule, tense_rule,
-                    a_the_rule, root_word_rule,
-                    double_letter_rule)
+  error_check_rules(suffix_rule, plural_rule, plural_add_rule, tense_rule,
+                    tense_add_rule, a_the_rule, root_word_rule,
+                    double_letter_rule, number_text_rule)
   error_check_alternate_df(acceptable_df)
 
-  counts <- split_clean(.data) %>%
+  counts <- split_clean(.data, contractions_df = contractions_df) %>%
     match_position_basic(alternate_df = acceptable_df,
                          plural_rule = plural_rule,
                          plural_add_rule = plural_add_rule,

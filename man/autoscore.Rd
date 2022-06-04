@@ -17,6 +17,7 @@ autoscore(
   double_letter_rule = FALSE,
   suffix_rule = FALSE,
   number_text_rule = FALSE,
+  contractions_df = NULL,
   output = "text"
 )
 }
@@ -41,7 +42,9 @@ autoscore(
 
 \item{suffix_rule}{should the words be stemmed (all suffix characters removed)? (default = `FALSE`); if `TRUE`, plural_rule and tense_rule are `FALSE`}
 
-\item{number_text_rule}{should the numbers (e.g., 1, 2, 3) be written in word form (e.g., one, two, three)? (default = `FALSE`)}
+\item{number_text_rule}{should the numbers (e.g., 1, 2, 3) be used in word form (e.g., one, two, three) in the scoring? (default = `FALSE`)}
+
+\item{contractions_df}{list of contractions to change (e.g., "She'll" changed to "She will"). The built-in list of contractions can be seen with \code{data(contractions_df)}.}
 
 \item{output}{the output type for the autoscore table; current options are "text" (provides a cleaned data set) and "none" (which provides all data); others to follow soon}
 }
