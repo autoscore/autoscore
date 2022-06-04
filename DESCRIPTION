@@ -1,15 +1,15 @@
 Package: autoscore
 Type: Package
 Title: Automatically Score Word Identification in Speech Perception
-Version: 0.4.1
-Date: 2019-08-31
+Version: 0.5.0
+Date: 2022-06-02
 Authors@R: c(person("Tyson S.", "Barrett",  
                     role=c("aut","cre"), 
-                    email = "t.barrett@aggiemail.usu.edu", 
+                    email = "t.barrett88@gmail.com", 
                     comment = c(ORCID = "0000-0002-2137-1391")),
  	         person("Sarah E.", "Yoho", role="ctr"),
  	         person("Stephanie A.", "Borrie", role="ctr"))
-Maintainer: Tyson S. Barrett <t.barrett@aggiemail.usu.edu>
+Maintainer: Tyson S. Barrett <t.barrett88@gmail.com>
 Description: Automatically scores orthographic listener transcripts for words correctly identified. 
     This is useful for speech perception research, such as studies examining listener understanding 
     of speech in background noise or disordered speech, as well as clinical disciplines where 
@@ -21,7 +21,7 @@ LazyData: true
 Depends:
     R (>= 2.10)
 Imports:
-    knitr,
+    english,
     magrittr,
     cli,
     crayon,
@@ -42,4 +42,4 @@ Suggests:
     MASS,
     sjmisc,
     covr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2

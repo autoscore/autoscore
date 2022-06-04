@@ -3,13 +3,23 @@
 \docType{package}
 \name{autoscore}
 \alias{autoscore}
-\alias{autoscore-package}
 \title{AutoScore}
 \usage{
-autoscore(.data, acceptable_df = NULL, plural_rule = FALSE,
-  plural_add_rule = FALSE, tense_rule = FALSE,
-  tense_add_rule = FALSE, a_the_rule = FALSE, root_word_rule = FALSE,
-  double_letter_rule = FALSE, suffix_rule = FALSE, output = "text")
+autoscore(
+  .data,
+  acceptable_df = NULL,
+  plural_rule = FALSE,
+  plural_add_rule = FALSE,
+  tense_rule = FALSE,
+  tense_add_rule = FALSE,
+  a_the_rule = FALSE,
+  root_word_rule = FALSE,
+  double_letter_rule = FALSE,
+  suffix_rule = FALSE,
+  number_text_rule = FALSE,
+  contractions_df = NULL,
+  output = "text"
+)
 }
 \arguments{
 \item{.data}{The data.frame (or tbl_df) to be used to autoscore}
@@ -31,6 +41,10 @@ autoscore(.data, acceptable_df = NULL, plural_rule = FALSE,
 \item{double_letter_rule}{should double letters within a word (the t in 'attack') be considered the same as if there is only one of that latter ('atack'); some of these will be in the common_misspell_rule; default = `FALSE`}
 
 \item{suffix_rule}{should the words be stemmed (all suffix characters removed)? (default = `FALSE`); if `TRUE`, plural_rule and tense_rule are `FALSE`}
+
+\item{number_text_rule}{should the numbers (e.g., 1, 2, 3) be used in word form (e.g., one, two, three) in the scoring? (default = `FALSE`)}
+
+\item{contractions_df}{list of contractions to change (e.g., "She'll" changed to "She will"). The built-in list of contractions can be seen with \code{data(contractions_df)}.}
 
 \item{output}{the output type for the autoscore table; current options are "text" (provides a cleaned data set) and "none" (which provides all data); others to follow soon}
 }

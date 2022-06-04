@@ -1,6 +1,6 @@
 
 df <- autoscore::example_data
-acceptable_df <- tibble::data_frame(
+acceptable_df <- tibble::tibble(
   target = c("model",
              "treason",
              "duck"),
@@ -40,7 +40,7 @@ testthat::expect_s3_class(autoscore::autoscore(df,
                                                plural_add_rule = TRUE,
                                                double_letter_rule = FALSE), "data.frame")
 
-alternate_df <- tibble::data_frame(
+alternate_df <- tibble::tibble(
   target = c("beat",
              "treeson"),
   acceptable = c("beet, baet",
@@ -56,7 +56,14 @@ d <- tibble::tribble(
   6, "junkyard", "junk yard", 0,
   7, "junk yard", "junkyard", 1,
   8, "The matches are on the shelf", "23  the matches are on the shelf", 6,
-  9, "The puppy played with a ball", "1  x", 0
+  9, "The puppy played with a ball", "1  x", 0,
+  10, "One two three", "1 2 3", 3,
+  11, "She will each be", "She'll be", 3
+)
+
+contractions_list = tibble::tibble(
+  contraction = "She'll",
+  replacement = "She will"
 )
 
 autoscored <- autoscore::autoscore(d, alternate_df,
@@ -64,11 +71,13 @@ autoscored <- autoscore::autoscore(d, alternate_df,
                                    tense_rule = TRUE,
                                    root_word_rule = TRUE,
                                    a_the_rule = TRUE,
+                                   number_text_rule = TRUE,
+                                   contractions_df = contractions_list,
                                    output = "text")
 
 testthat::expect_s3_class(autoscored,
                           "data.frame")
-testthat::expect_equal(autoscored$equal, rep(TRUE, 9))
+testthat::expect_equal(autoscored$equal, rep(TRUE, 11))
 
 autoscored2 <- autoscore::autoscore(d, alternate_df,
                                    plural_rule = TRUE,
@@ -79,4 +88,4 @@ autoscored2 <- autoscore::autoscore(d, alternate_df,
 
 testthat::expect_s3_class(autoscored2,
                           "data.frame")
-testthat::expect_equal(autoscored2$equal, c(rep(TRUE, 6), rep(FALSE, 1), rep(TRUE, 2)))
+testthat::expect_equal(autoscored2$equal, c(rep(TRUE, 6), FALSE, TRUE, TRUE, FALSE, FALSE))

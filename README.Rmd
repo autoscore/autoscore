@@ -15,12 +15,15 @@ knitr::opts_chunk$set(
 devtools::load_all()
 ```
 
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/autoscore/autoscore/workflows/R-CMD-check/badge.svg)](https://github.com/autoscore/autoscore/actions)
+![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+<!-- badges: end -->
 
 # `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 
-> R Package: `r packageVersion("autoscore")` <br> Shiny App: [autoscore.usu.edu](http://autoscore.usu.edu)
+> R Package: `0.5.0` <br> Shiny App: [autoscore.usu.edu](http://autoscore.usu.edu)
 
 *Authors:*
 
@@ -29,8 +32,9 @@ devtools::load_all()
 - *Sarah E. Yoho*
 
 
+The purpose of `autoscore` is to automatically score word identification in speech perception research, such as studies involving listener understanding of speech in background noise or disordered speech. The article first presenting the program has been cited in 20 peer-reviewed publications as of June 2022 [see Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073).
 
-The purpose of `autoscore` is to automatically score word identification in speech perception research, such as studies involving listener understanding of speech in background noise or disordered speech. The program uses a flexible number of rules that determine whether a response set of words (i.e., listener transcriptions) match a target set of words (i.e., speech corpus). At the most basic level, Autoscore counts words in the listener transcript as correct if they match the words in the target phrase exactly (regardless of word order). Individual rules can be applied or removed, depending on the needs of researcher and the scoring rules of the research lab. Examples of rules available in Autoscore include the ability to count as correct substitutions of articles (A for The) or differences in plural or tense (adding -s or -ed to a word). Additional rules can be added by the researcher as needed.
+The program uses a flexible number of rules that determine whether a response set of words (i.e., listener transcriptions) match a target set of words (i.e., speech corpus). At the most basic level, Autoscore counts words in the listener transcript as correct if they match the words in the target phrase exactly (regardless of word order). Individual rules can be applied or removed, depending on the needs of researcher and the scoring rules of the research lab. Examples of rules available in Autoscore include the ability to count as correct substitutions of articles (A for The) or differences in plural or tense (adding -s or -ed to a word). Additional rules can be added by the researcher as needed.
 
 The rule options are categorized into either spelling rules or grammar rules.
 
@@ -39,15 +43,15 @@ The rule options are categorized into either spelling rules or grammar rules.
 1. `acceptable_spell_rule`: Response word counted correct if it is a homophone or common misspelling of the target word, according to a preloaded default acceptable spelling list (contains over 300 common acceptable spellings). User can also download the default acceptable spelling list, add/remove items, and upload for automation. Response word counted correct if is on the acceptable spelling list. Default is `FALSE`.
 2. `root_word_rule`: Response word counted correct if the target word (e.g. ‘day’) is embedded at either the beginning (e.g. ‘daybreak’) of the target word. Default is `FALSE`.
 3. `double_letter_rule`: Response word counted correct if it omitted a double letter within a word (e.g. ‘atack’ matches ‘attack’) or added an unnecessary double letter (e.g. ‘occassion’ matches ‘occasion’). Default is `FALSE`.
-
+4. `number_text_rule`: Response word counted correct if using actual numbers (e.g. 1, 2, 100) instead of the spelled out version (e.g. one, two, one hundred). Default is `FALSE`.
 
 #### Grammar Rules
 
-4. `tense_rule`: Response word counted correct if it differs from the target word only by tense; Default is `FALSE`.
-5. `tense_add_rule`: Response word counted correct if it only adds a tense as compared to the target word; Default is `FALSE`. It is also referred to as "Tense+ Rule."
-6. `plural_rule`: Response word counted correct if it differs from the target word only by plurality; Default is `FALSE`.
-7. `plural_add_rule`: Response word counted correct if it only adds a plural as compared to the target word; Default is `FALSE`. It is also referred to as "Plural+ Rule."
-8. `a_the_rule`: Substitutions between “a” and “the” to be scored as correct; Default is `FALSE`.
+5. `tense_rule`: Response word counted correct if it differs from the target word only by tense; Default is `FALSE`.
+6. `tense_add_rule`: Response word counted correct if it only adds a tense as compared to the target word; Default is `FALSE`. It is also referred to as "Tense+ Rule."
+7. `plural_rule`: Response word counted correct if it differs from the target word only by plurality; Default is `FALSE`.
+8. `plural_add_rule`: Response word counted correct if it only adds a plural as compared to the target word; Default is `FALSE`. It is also referred to as "Plural+ Rule."
+9. `a_the_rule`: Substitutions between “a” and “the” to be scored as correct; Default is `FALSE`.
 
 ## Design
 
@@ -120,11 +124,42 @@ example_data %>%
   as.tibble()
 ```
 
-
 In each of these examples, it is clear that the human and "autoscore" agree the majority of the time. The times that they disagree, it is usually predictably a human error or a subjective judgement that the researcher will have to consider (for example by including alternate spellings of words as we just demonstrated).
+
+Finally, we can use the `pwc()` function to calculate the percent words correct using the output from `autoscore()`. We provide the `id` variable so that `pwc()` provides a value for each individual.
+
+```{r}
+example_data %>%
+  autoscore() %>% 
+  pwc(id)
+```
+
+As of `autoscore 0.5.0` two new rules can also be used: `number_text_rule` (changes numbers like 1 or 2 to "one" or "two") and `contractions_df` (which, when applied, adjusts for contraction words). There is also a new function called `compound_fixer()` that allows you to adjust compound words the way you want. The example below shows all three of these new features together. For the `compound_fixer()`, we want "junk yard" to become "junkyard" and "break fast" to become "breakfast". These words are not in the default list so we add them with the `comp` argument. The `human` column is the correct number so we can compare autoscore's results with it.
+
+```{r}
+tibble::tribble(
+  ~id, ~target, ~response, ~human,
+  1, "the coin ate it", "a coins for it", 1,
+  2, "beat the clock", "beets the clock", 2,
+  3, "beated it", "beet it", 1,
+  4, "beets the clock", "beat the clock", 2,
+  5, "beeted the clock", "beet the clock", 2,
+  6, "junkyard", "junk yard", 1,
+  7, "Breakfast is great", "break fast is great", 3,
+  8, "The matches are on the shelf", "23  the matches are on the shelf", 6,
+  9, "The puppy played with a ball", "1  x", 0,
+  10, "One two three", "1 2 3", 3,
+  11, "Hide one thing", "hide 1", 2,
+  12, "She will eat", "She'll eat", 3
+) %>%
+  dplyr::mutate(response = compound_fixer(response, comp = c("junkyard" = "junk yard", "breakfast" = "break fast"))) %>% 
+  autoscore(number_text_rule = TRUE,
+            contractions_df = autoscore::contractions_df) 
+```
+
 
 ### Learn More
 
-Peer-reviewed publications and further tutorials are forthcoming. For more information, contact <autoscorehelp@gmail.com>.
+For more information, contact <autoscorehelp@gmail.com>.
 
 

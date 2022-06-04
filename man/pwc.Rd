@@ -4,13 +4,15 @@
 \alias{pwc}
 \title{Percent Words Correct}
 \usage{
-pwc(data)
+pwc(data, id)
 }
 \arguments{
 \item{data}{data.frame containing the target, response, and autoscore columns as produced by the function `autoscore()`.}
+
+\item{id}{the id variable to summarize the PWC for}
 }
 \value{
-data.frame of the percent correct for each line in `data`
+data.frame of the percent correct for each "id"
 }
 \description{
 Obtain the percent words correct from a data.frame produced by `autoscore()`.

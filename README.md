@@ -1,17 +1,20 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-    ## Loading autoscore
+    ## ℹ Loading autoscore
 
-    ## ── autoscore 0.4.1 ─────────────────────────────────────────────────────────────────────────────
+    ## ── autoscore 0.5.0 ─────────────────────────────────────────────────────────────
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/autoscore/autoscore/workflows/R-CMD-check/badge.svg)](https://github.com/autoscore/autoscore/actions)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+<!-- badges: end -->
 
-`autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
-===============================================================================================
+# `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 
-> R Package: 0.4.1 <br> Shiny App:
+> R Package: `0.5.0` <br> Shiny App:
 > [autoscore.usu.edu](http://autoscore.usu.edu)
 
 *Authors:*
@@ -23,7 +26,11 @@
 The purpose of `autoscore` is to automatically score word identification
 in speech perception research, such as studies involving listener
 understanding of speech in background noise or disordered speech. The
-program uses a flexible number of rules that determine whether a
+article first presenting the program has been cited in 20 peer-reviewed
+publications as of June 2022 [see Google
+Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073).
+
+The program uses a flexible number of rules that determine whether a
 response set of words (i.e., listener transcriptions) match a target set
 of words (i.e., speech corpus). At the most basic level, Autoscore
 counts words in the listener transcript as correct if they match the
@@ -54,6 +61,9 @@ rules.
     double letter within a word (e.g. ‘atack’ matches ‘attack’) or added
     an unnecessary double letter (e.g. ‘occassion’ matches ‘occasion’).
     Default is `FALSE`.
+4.  `number_text_rule`: Response word counted correct if using actual
+    numbers (e.g. 1, 2, 100) instead of the spelled out version
+    (e.g. one, two, one hundred). Default is `FALSE`.
 
 #### Grammar Rules
 
@@ -70,8 +80,7 @@ rules.
 5.  `a_the_rule`: Substitutions between “a” and “the” to be scored as
     correct; Default is `FALSE`.
 
-Design
-------
+## Design
 
 The API of the `R` package is simple. A single call to `autoscore()`
 with the formatted data will run everything for you. This function is a
@@ -98,16 +107,14 @@ Beyond the main analysis when using `autoscore()`, we can also call
 `pwc()` to get the percent words correct (based on the number of target
 words) for each observation.
 
-Use of the Online Tool
-----------------------
+## Use of the Online Tool
 
 Visit [autoscore.usu.edu](http://autoscore.usu.edu) to use the online
 tool. Instructions for its use are found there.
 
 <img src="man/figures/online_autoscore_snapshot.png" align="center" width="70%" height="70%" />
 
-Use of the R Package
---------------------
+## Use of the R Package
 
 To install the package use the developmental version as it is not yet on
 CRAN.
@@ -125,7 +132,7 @@ library(autoscore)
 
 data("example_data")
 example_data
-#> # A tibble: 40 x 4
+#> # A tibble: 40 × 4
 #>       Id Target                      Response                    human
 #>    <dbl> <chr>                       <chr>                       <dbl>
 #>  1     1 mate denotes a judgement    made the dinner in it           1
@@ -148,21 +155,24 @@ output.
 example_data %>%
   autoscore() %>%   ## using all the defaults
   as.tibble()       ## to shorted output
-#> Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).
-#> This warning is displayed once per session.
-#> # A tibble: 40 x 6
-#>       id target                 response              human autoscore equal
-#>    <dbl> <fct>                  <fct>                 <dbl>     <int> <lgl>
-#>  1     1 mate denotes a judgem… made the dinner in it     1         0 FALSE
-#>  2     1 rampant boasting capt… rubbed against the c…     1         1 TRUE 
-#>  3     1 resting older earring  resting alert hearing     1         1 TRUE 
-#>  4     1 bolder ground from ju… boulder down from dr…     2         1 FALSE
-#>  5     1 remove and name for s… remember the name fo…     3         2 FALSE
-#>  6     1 done with finest hand… dinner finished hand…     1         1 TRUE 
-#>  7     1 support with dock and… she put the duck in …     1         0 FALSE
-#>  8     1 or spent sincere aside earth bent spent her…     2         2 TRUE 
-#>  9     1 account for who could… i can for hookah kno…     2         2 TRUE 
-#> 10     1 connect the beer devi… connected beard kind…     1         0 FALSE
+#> Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+#> Please use `as_tibble()` instead.
+#> The signature and semantics have changed, see `?as_tibble`.
+#> This warning is displayed once every 8 hours.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+#> # A tibble: 40 × 6
+#>       id target                      response              human autoscore equal
+#>    <dbl> <chr>                       <chr>                 <dbl>     <int> <lgl>
+#>  1     1 mate denotes a judgement    made the dinner in it     1         0 FALSE
+#>  2     1 rampant boasting captain    rubbed against the c…     1         1 TRUE 
+#>  3     1 resting older earring       resting alert hearing     1         1 TRUE 
+#>  4     1 bolder ground from justice  boulder down from dr…     2         1 FALSE
+#>  5     1 remove and name for stake   remember the name fo…     3         2 FALSE
+#>  6     1 done with finest handle     dinner finished hand…     1         1 TRUE 
+#>  7     1 support with dock and cheer she put the duck in …     1         0 FALSE
+#>  8     1 or spent sincere aside      earth bent spent her…     2         2 TRUE 
+#>  9     1 account for who could knock i can for hookah kno…     2         2 TRUE 
+#> 10     1 connect the beer device     connected beard kind…     1         0 FALSE
 #> # … with 30 more rows
 ```
 
@@ -172,19 +182,19 @@ Next, let’s change some of the rules.
 example_data %>%
   autoscore(plural_rule = FALSE, tense_rule = FALSE) %>%
   as.tibble()
-#> # A tibble: 40 x 6
-#>       id target                 response              human autoscore equal
-#>    <dbl> <fct>                  <fct>                 <dbl>     <int> <lgl>
-#>  1     1 mate denotes a judgem… made the dinner in it     1         0 FALSE
-#>  2     1 rampant boasting capt… rubbed against the c…     1         1 TRUE 
-#>  3     1 resting older earring  resting alert hearing     1         1 TRUE 
-#>  4     1 bolder ground from ju… boulder down from dr…     2         1 FALSE
-#>  5     1 remove and name for s… remember the name fo…     3         2 FALSE
-#>  6     1 done with finest hand… dinner finished hand…     1         1 TRUE 
-#>  7     1 support with dock and… she put the duck in …     1         0 FALSE
-#>  8     1 or spent sincere aside earth bent spent her…     2         2 TRUE 
-#>  9     1 account for who could… i can for hookah kno…     2         2 TRUE 
-#> 10     1 connect the beer devi… connected beard kind…     1         0 FALSE
+#> # A tibble: 40 × 6
+#>       id target                      response              human autoscore equal
+#>    <dbl> <chr>                       <chr>                 <dbl>     <int> <lgl>
+#>  1     1 mate denotes a judgement    made the dinner in it     1         0 FALSE
+#>  2     1 rampant boasting captain    rubbed against the c…     1         1 TRUE 
+#>  3     1 resting older earring       resting alert hearing     1         1 TRUE 
+#>  4     1 bolder ground from justice  boulder down from dr…     2         1 FALSE
+#>  5     1 remove and name for stake   remember the name fo…     3         2 FALSE
+#>  6     1 done with finest handle     dinner finished hand…     1         1 TRUE 
+#>  7     1 support with dock and cheer she put the duck in …     1         0 FALSE
+#>  8     1 or spent sincere aside      earth bent spent her…     2         2 TRUE 
+#>  9     1 account for who could knock i can for hookah kno…     2         2 TRUE 
+#> 10     1 connect the beer device     connected beard kind…     1         0 FALSE
 #> # … with 30 more rows
 ```
 
@@ -194,19 +204,19 @@ the computation.
 ``` r
 example_data %>%
   autoscore(output = "none")
-#> # A tibble: 40 x 10
-#>       id target response human diff_target_pre diff_response_p… diff_target
-#>    <dbl> <list> <list>   <dbl> <list>          <list>           <list>     
-#>  1     1 <chr … <chr [5…     1 <int [4]>       <int [5]>        <lgl [4]>  
-#>  2     1 <chr … <chr [4…     1 <int [3]>       <int [4]>        <lgl [3]>  
-#>  3     1 <chr … <chr [3…     1 <int [3]>       <int [3]>        <lgl [3]>  
-#>  4     1 <chr … <chr [4…     2 <int [4]>       <int [4]>        <lgl [4]>  
-#>  5     1 <chr … <chr [5…     3 <int [5]>       <int [5]>        <lgl [5]>  
-#>  6     1 <chr … <chr [3…     1 <int [4]>       <int [3]>        <lgl [4]>  
-#>  7     1 <chr … <chr [6…     1 <int [5]>       <int [6]>        <lgl [5]>  
-#>  8     1 <chr … <chr [5…     2 <int [4]>       <int [5]>        <lgl [4]>  
-#>  9     1 <chr … <chr [5…     2 <int [5]>       <int [5]>        <lgl [5]>  
-#> 10     1 <chr … <chr [4…     1 <int [4]>       <int [4]>        <lgl [4]>  
+#> # A tibble: 40 × 10
+#>       id target    response  human diff_target_pre diff_response_pre diff_target
+#>    <dbl> <list>    <list>    <dbl> <list>          <list>            <list>     
+#>  1     1 <chr [4]> <chr [5]>     1 <int [4]>       <int [5]>         <lgl [4]>  
+#>  2     1 <chr [3]> <chr [4]>     1 <int [3]>       <int [4]>         <lgl [3]>  
+#>  3     1 <chr [3]> <chr [3]>     1 <int [3]>       <int [3]>         <lgl [3]>  
+#>  4     1 <chr [4]> <chr [4]>     2 <int [4]>       <int [4]>         <lgl [4]>  
+#>  5     1 <chr [5]> <chr [5]>     3 <int [5]>       <int [5]>         <lgl [5]>  
+#>  6     1 <chr [4]> <chr [3]>     1 <int [4]>       <int [3]>         <lgl [4]>  
+#>  7     1 <chr [5]> <chr [6]>     1 <int [5]>       <int [6]>         <lgl [5]>  
+#>  8     1 <chr [4]> <chr [5]>     2 <int [4]>       <int [5]>         <lgl [4]>  
+#>  9     1 <chr [5]> <chr [5]>     2 <int [5]>       <int [5]>         <lgl [5]>  
+#> 10     1 <chr [4]> <chr [4]>     1 <int [4]>       <int [4]>         <lgl [4]>  
 #> # … with 30 more rows, and 3 more variables: diff_response <list>,
 #> #   count_target <int>, count_response <int>
 ```
@@ -219,7 +229,7 @@ correct.
 
 ``` r
 autoscore::acceptable_spellings
-#> # A tibble: 257 x 2
+#> # A tibble: 257 × 2
 #>    target   acceptable       
 #>    <chr>    <chr>            
 #>  1 absent   abcent           
@@ -242,19 +252,19 @@ Using this, we can provide it to the `autoscore()` function with the
 example_data %>%
   autoscore::autoscore(acceptable_df = autoscore::acceptable_spellings) %>%
   as.tibble()
-#> # A tibble: 40 x 6
-#>       id target                 response              human autoscore equal
-#>    <dbl> <fct>                  <fct>                 <dbl>     <int> <lgl>
-#>  1     1 mate denotes a judgem… made the dinner in it     1         0 FALSE
-#>  2     1 rampant boasting capt… rubbed against the c…     1         1 TRUE 
-#>  3     1 resting older earring  resting alert hearing     1         1 TRUE 
-#>  4     1 bolder ground from ju… boulder down from dr…     2         2 TRUE 
-#>  5     1 remove and name for s… remember the name fo…     3         3 TRUE 
-#>  6     1 done with finest hand… dinner finished hand…     1         1 TRUE 
-#>  7     1 support with dock and… she put the duck in …     1         0 FALSE
-#>  8     1 or spent sincere aside earth bent spent her…     2         2 TRUE 
-#>  9     1 account for who could… i can for hookah kno…     2         2 TRUE 
-#> 10     1 connect the beer devi… connected beard kind…     1         0 FALSE
+#> # A tibble: 40 × 6
+#>       id target                      response              human autoscore equal
+#>    <dbl> <chr>                       <chr>                 <dbl>     <int> <lgl>
+#>  1     1 mate denotes a judgement    made the dinner in it     1         0 FALSE
+#>  2     1 rampant boasting captain    rubbed against the c…     1         1 TRUE 
+#>  3     1 resting older earring       resting alert hearing     1         1 TRUE 
+#>  4     1 bolder ground from justice  boulder down from dr…     2         2 TRUE 
+#>  5     1 remove and name for stake   remember the name fo…     3         3 TRUE 
+#>  6     1 done with finest handle     dinner finished hand…     1         1 TRUE 
+#>  7     1 support with dock and cheer she put the duck in …     1         0 FALSE
+#>  8     1 or spent sincere aside      earth bent spent her…     2         2 TRUE 
+#>  9     1 account for who could knock i can for hookah kno…     2         2 TRUE 
+#> 10     1 connect the beer device     connected beard kind…     1         0 FALSE
 #> # … with 30 more rows
 ```
 
@@ -264,8 +274,79 @@ usually predictably a human error or a subjective judgement that the
 researcher will have to consider (for example by including alternate
 spellings of words as we just demonstrated).
 
+Finally, we can use the `pwc()` function to calculate the percent words
+correct using the output from `autoscore()`. We provide the `id`
+variable so that `pwc()` provides a value for each individual.
+
+``` r
+example_data %>%
+  autoscore() %>% 
+  pwc(id)
+#> # A tibble: 2 × 2
+#>      id   pwc
+#>   <dbl> <dbl>
+#> 1     1  32.7
+#> 2     2  20.8
+```
+
+As of `autoscore 0.5.0` two new rules can also be used:
+`number_text_rule` (changes numbers like 1 or 2 to “one” or “two”) and
+`contractions_df` (which, when applied, adjusts for contraction words).
+There is also a new function called `compound_fixer()` that allows you
+to adjust compound words the way you want. The example below shows all
+three of these new features together. For the `compound_fixer()`, we
+want “junk yard” to become “junkyard” and “break fast” to become
+“breakfast”. These words are not in the default list so we add them with
+the `comp` argument. The `human` column is the correct number so we can
+compare autoscore’s results with it.
+
+``` r
+tibble::tribble(
+  ~id, ~target, ~response, ~human,
+  1, "the coin ate it", "a coins for it", 1,
+  2, "beat the clock", "beets the clock", 2,
+  3, "beated it", "beet it", 1,
+  4, "beets the clock", "beat the clock", 2,
+  5, "beeted the clock", "beet the clock", 2,
+  6, "junkyard", "junk yard", 1,
+  7, "Breakfast is great", "break fast is great", 3,
+  8, "The matches are on the shelf", "23  the matches are on the shelf", 6,
+  9, "The puppy played with a ball", "1  x", 0,
+  10, "One two three", "1 2 3", 3,
+  11, "Hide one thing", "hide 1", 2,
+  12, "She will eat", "She'll eat", 3
+) %>%
+  dplyr::mutate(response = compound_fixer(response, comp = c("junkyard" = "junk yard", "breakfast" = "break fast"))) %>% 
+  autoscore(number_text_rule = TRUE,
+            contractions_df = autoscore::contractions_df) 
+#>    id                       target                         response human
+#> 1   1              the coin ate it                   a coins for it     1
+#> 2   2               beat the clock                  beets the clock     2
+#> 3   3                    beated it                          beet it     1
+#> 4   4              beets the clock                   beat the clock     2
+#> 5   5             beeted the clock                   beet the clock     2
+#> 6   6                     junkyard                         junkyard     1
+#> 7   7           Breakfast is great               breakfast is great     3
+#> 8   8 The matches are on the shelf 23  the matches are on the shelf     6
+#> 9   9 The puppy played with a ball                             1  x     0
+#> 10 10                One two three                            1 2 3     3
+#> 11 11               Hide one thing                           hide 1     2
+#> 12 12                 She will eat                       She'll eat     3
+#>    autoscore equal
+#> 1          1  TRUE
+#> 2          2  TRUE
+#> 3          1  TRUE
+#> 4          2  TRUE
+#> 5          2  TRUE
+#> 6          1  TRUE
+#> 7          3  TRUE
+#> 8          6  TRUE
+#> 9          0  TRUE
+#> 10         3  TRUE
+#> 11         2  TRUE
+#> 12         3  TRUE
+```
+
 ### Learn More
 
-Peer-reviewed publications and further tutorials are forthcoming. For
-more information, contact
-<a href="mailto:autoscorehelp@gmail.com" class="email">autoscorehelp@gmail.com</a>.
+For more information, contact <autoscorehelp@gmail.com>.
