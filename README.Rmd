@@ -20,7 +20,7 @@ devtools::load_all()
 
 # `autoscore` <img src="man/figures/autoscore_logo.png" align="right" width="30%" height="30%" />
 
-> R Package: `r packageVersion("autoscore")` <br> Shiny App: [autoscore.usu.edu](http://autoscore.usu.edu)
+> R Package: `0.5.0` <br> Shiny App: [autoscore.usu.edu](http://autoscore.usu.edu)
 
 *Authors:*
 
@@ -29,8 +29,9 @@ devtools::load_all()
 - *Sarah E. Yoho*
 
 
+The purpose of `autoscore` is to automatically score word identification in speech perception research, such as studies involving listener understanding of speech in background noise or disordered speech. The article first presenting the program has been cited in 20 peer-reviewed publications as of June 2022 [see Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073).
 
-The purpose of `autoscore` is to automatically score word identification in speech perception research, such as studies involving listener understanding of speech in background noise or disordered speech. The program uses a flexible number of rules that determine whether a response set of words (i.e., listener transcriptions) match a target set of words (i.e., speech corpus). At the most basic level, Autoscore counts words in the listener transcript as correct if they match the words in the target phrase exactly (regardless of word order). Individual rules can be applied or removed, depending on the needs of researcher and the scoring rules of the research lab. Examples of rules available in Autoscore include the ability to count as correct substitutions of articles (A for The) or differences in plural or tense (adding -s or -ed to a word). Additional rules can be added by the researcher as needed.
+The program uses a flexible number of rules that determine whether a response set of words (i.e., listener transcriptions) match a target set of words (i.e., speech corpus). At the most basic level, Autoscore counts words in the listener transcript as correct if they match the words in the target phrase exactly (regardless of word order). Individual rules can be applied or removed, depending on the needs of researcher and the scoring rules of the research lab. Examples of rules available in Autoscore include the ability to count as correct substitutions of articles (A for The) or differences in plural or tense (adding -s or -ed to a word). Additional rules can be added by the researcher as needed.
 
 The rule options are categorized into either spelling rules or grammar rules.
 
@@ -39,15 +40,15 @@ The rule options are categorized into either spelling rules or grammar rules.
 1. `acceptable_spell_rule`: Response word counted correct if it is a homophone or common misspelling of the target word, according to a preloaded default acceptable spelling list (contains over 300 common acceptable spellings). User can also download the default acceptable spelling list, add/remove items, and upload for automation. Response word counted correct if is on the acceptable spelling list. Default is `FALSE`.
 2. `root_word_rule`: Response word counted correct if the target word (e.g. ‘day’) is embedded at either the beginning (e.g. ‘daybreak’) of the target word. Default is `FALSE`.
 3. `double_letter_rule`: Response word counted correct if it omitted a double letter within a word (e.g. ‘atack’ matches ‘attack’) or added an unnecessary double letter (e.g. ‘occassion’ matches ‘occasion’). Default is `FALSE`.
-
+4. `number_text_rule`: Response word counted correct if using actual numbers (e.g. 1, 2, 100) instead of the spelled out version (e.g. one, two, one hundred). Default is `FALSE`.
 
 #### Grammar Rules
 
-4. `tense_rule`: Response word counted correct if it differs from the target word only by tense; Default is `FALSE`.
-5. `tense_add_rule`: Response word counted correct if it only adds a tense as compared to the target word; Default is `FALSE`. It is also referred to as "Tense+ Rule."
-6. `plural_rule`: Response word counted correct if it differs from the target word only by plurality; Default is `FALSE`.
-7. `plural_add_rule`: Response word counted correct if it only adds a plural as compared to the target word; Default is `FALSE`. It is also referred to as "Plural+ Rule."
-8. `a_the_rule`: Substitutions between “a” and “the” to be scored as correct; Default is `FALSE`.
+5. `tense_rule`: Response word counted correct if it differs from the target word only by tense; Default is `FALSE`.
+6. `tense_add_rule`: Response word counted correct if it only adds a tense as compared to the target word; Default is `FALSE`. It is also referred to as "Tense+ Rule."
+7. `plural_rule`: Response word counted correct if it differs from the target word only by plurality; Default is `FALSE`.
+8. `plural_add_rule`: Response word counted correct if it only adds a plural as compared to the target word; Default is `FALSE`. It is also referred to as "Plural+ Rule."
+9. `a_the_rule`: Substitutions between “a” and “the” to be scored as correct; Default is `FALSE`.
 
 ## Design
 
@@ -123,8 +124,17 @@ example_data %>%
 
 In each of these examples, it is clear that the human and "autoscore" agree the majority of the time. The times that they disagree, it is usually predictably a human error or a subjective judgement that the researcher will have to consider (for example by including alternate spellings of words as we just demonstrated).
 
+Finally, we can use the `pwc()` function to calculate the percent words correct using the output from `autoscore()`. We provide the `id` variable so that `pwc()` provides a value for each individual.
+
+```{r}
+example_data %>%
+  autoscore() %>% 
+  pwc(id)
+```
+
+
 ### Learn More
 
-Peer-reviewed publications and further tutorials are forthcoming. For more information, contact <autoscorehelp@gmail.com>.
+For more information, contact <autoscorehelp@gmail.com>.
 
 

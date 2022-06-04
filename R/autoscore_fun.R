@@ -12,6 +12,7 @@
 #' @param root_word_rule should a word that contains the target word at the beginning of the reponse word be considered correct (default = `FALSE` because does "partial" matching which can bring in some unexpected results)
 #' @param double_letter_rule should double letters within a word (the t in 'attack') be considered the same as if there is only one of that latter ('atack'); some of these will be in the common_misspell_rule; default = `FALSE`
 #' @param suffix_rule should the words be stemmed (all suffix characters removed)? (default = `FALSE`); if `TRUE`, plural_rule and tense_rule are `FALSE`
+#' @param number_text_rule should the numbers (e.g., 1, 2, 3) be written in word form (e.g., one, two, three)? (default = `FALSE`)
 #' @param output the output type for the autoscore table; current options are "text" (provides a cleaned data set) and "none" (which provides all data); others to follow soon
 #'
 #' @examples
@@ -39,6 +40,7 @@
 #'
 #' @import dplyr
 #' @import tibble
+#' @importFrom english words
 #' @importFrom furniture washer
 #' @importFrom stats setNames
 #' @importFrom stats na.omit
@@ -54,6 +56,7 @@ autoscore <- function(.data,
                       root_word_rule = FALSE,
                       double_letter_rule = FALSE,
                       suffix_rule = FALSE,
+                      number_text_rule = FALSE,
                       output = "text") {
 
   error_check_rules(suffix_rule, plural_rule, tense_rule,
@@ -70,7 +73,8 @@ autoscore <- function(.data,
                          a_the_rule = a_the_rule,
                          root_word_rule = root_word_rule,
                          suffix_rule = suffix_rule,
-                         double_letter_rule = double_letter_rule) %>%
+                         double_letter_rule = double_letter_rule,
+                         number_text_rule = number_text_rule) %>%
     count_matches()
 
   if (output == "none"){

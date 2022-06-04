@@ -4,13 +4,15 @@
 \name{example_data}
 \alias{example_data}
 \title{Example Data Set}
-\format{A data frame with 40 rows and 4 variables:
+\format{
+A data frame with 40 rows and 4 variables:
 \describe{
   \item{Id}{ID}
   \item{Target}{The target phrase.}
   \item{Response}{The response phrase.}
   \item{human}{The human judgement of the number of matching words}
-}}
+}
+}
 \usage{
 example_data
 }

@@ -15,14 +15,12 @@
 #'
 #' @export
 pwc <- function(data, id){
-  id <- rlang::enquo(id)
-
   data %>%
     dplyr::rename_all(tolower) %>%
     dplyr::mutate(target = stringr::str_split(target, pattern = " ") %>%
                     purrr::map(~stringr::str_remove_all(.x, pattern = "[[:punct:]]")) %>%
                     purrr::map_dbl(~length(.x))) %>%
-    dplyr::group_by(!! id) %>%
+    dplyr::group_by({{id}}) %>%
     dplyr::summarise(pwc = sum(autoscore) / sum(target) * 100)
 }
 

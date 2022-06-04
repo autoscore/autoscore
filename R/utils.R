@@ -22,33 +22,20 @@ split_clean <- function(d){
     dplyr::mutate(target = stringr::str_to_lower(target) %>%
                     stringr::str_replace_all(pattern = "-", replacement = " ") %>%
                     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
-                    stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
+                    stringr::str_replace_all(pattern = "2", replacement = "two") %>%
+                    stringr::str_replace_all(pattern = "4", replacement = "four") %>%
                     stringr::str_trim() %>%
                     stringr::str_split(pattern = " "),
                   response = stringr::str_to_lower(response) %>%
                     stringr::str_replace_all(pattern = "-", replacement = " ") %>%
                     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
-                    stringr::str_replace_all(pattern = "[0-9]", replacement = "") %>%
+                    stringr::str_replace_all(pattern = "2", replacement = "two") %>%
+                    stringr::str_replace_all(pattern = "4", replacement = "four") %>%
                     stringr::str_trim() %>%
                     stringr::str_split(pattern = " "))
 }
 
-plurals <- function(x, suf = "es", plural_rule, plural_add_rule){
-  if (isTRUE(plural_rule) | isTRUE(plural_add_rule)){
-    paste0(x, suf)
-  } else {
-    x
-  }
-}
 
-
-tenses <- function(x, suf = "ed", tense_rule, tense_add_rule){
-  if (isTRUE(tense_rule) | isTRUE(tense_add_rule)){
-    paste0(x, suf)
-  } else {
-    x
-  }
-}
 
 
 within_the_alternate_loop <- function(.x, .a,
@@ -102,7 +89,7 @@ alternate_fun <- function(d, alternate_df,
     dplyr::mutate(alternate_string = stringr::str_split(acceptable, pattern = ", "))
 
   .a <- alternate_df %>%
-    tidyr::unnest(.) %>%
+    tidyr::unnest(., cols = dplyr::everything()) %>%
     dplyr::distinct(.)
 
   d %>%
@@ -180,11 +167,12 @@ match_position_basic <- function(d, alternate_df,
                                  plural_rule, plural_add_rule,
                                  tense_rule, tense_add_rule,
                                  a_the_rule, root_word_rule,
-                                 suffix_rule, double_letter_rule){
+                                 suffix_rule, double_letter_rule,
+                                 number_text_rule){
 
   if (isTRUE(suffix_rule)){
     tense_rule <- FALSE
-    plural_rule   <- FALSE
+    plural_rule <- FALSE
     tense_add_rule <- FALSE
     plural_add_rule <- FALSE
   }
@@ -198,22 +186,20 @@ match_position_basic <- function(d, alternate_df,
     dplyr::mutate(target = purrr::map(target, ~{
       double_letter_fun(.x, double_letter_rule) %>%
         a_the_fun(a_the_rule) %>%
-        suffix_fun(suffix_rule)
-
+        suffix_fun(suffix_rule) %>%
+        numbers_fun(number_text_rule)
     })) %>%
     dplyr::mutate(response = purrr::map(response, ~{
       double_letter_fun(.x, double_letter_rule) %>%
         a_the_fun(a_the_rule) %>%
-        suffix_fun(suffix_rule)
-
+        suffix_fun(suffix_rule) %>%
+        numbers_fun(number_text_rule)
     })) %>%
     dplyr::mutate(diff_target_pre = purrr::map2(target, response, ~{
       pasttense_plurals_fun(.x, .y, tense_rule, tense_add_rule, plural_rule, plural_add_rule, root_word_rule)
-
     })) %>%
     dplyr::mutate(diff_response_pre = purrr::map2(response, target, ~{
       pasttense_plurals_fun(.x, .y, tense_rule, tense_add_rule, plural_rule, plural_add_rule, root_word_rule)
-
     }))
 
   d %>%
@@ -221,14 +207,6 @@ match_position_basic <- function(d, alternate_df,
     dplyr::mutate(diff_response = purrr::map(diff_response_pre, ~.x > 0))
 }
 
-
-suffix_fun <- function(chr, use = TRUE){
-  if (isTRUE(use)){
-    tm::stemDocument(chr)
-  } else {
-    chr
-  }
-}
 
 
 
@@ -284,36 +262,11 @@ pasttense_plurals_fun <- function(x, y, tense_rule, tense_add_rule, plural_rule,
 
   } else {
     match(x, y)
-
-  }
-}
-
-
-a_the_fun <- function(chr, use = TRUE){
-  if (isTRUE(use)){
-    nam = names(chr)
-    chr = stringr::str_replace(chr, pattern = "^a$", replacement = "the")
-    names(chr) = chr
-    chr
-  } else {
-    chr
-  }
-}
-
-double_letter_fun <- function(chr, use = FALSE){
-  if (isTRUE(use)){
-    nam = names(chr)
-    chr = stringr::str_replace_all(chr, pattern = "([[:alpha:]])\\1+", replacement = "\\1")
-    names(chr) = chr
-    chr
-  } else {
-    chr
   }
 }
 
 
 count_matches <- function(d) {
-
   d %>%
     dplyr::mutate(count_target = purrr::map(diff_target,
                                             ~ifelse(.x, 1, NA)) %>%
@@ -326,114 +279,9 @@ count_matches <- function(d) {
 }
 
 
-format_output <- function(final_table, output, original_data) {
-
-  original_data <- original_data %>%
-    dplyr::rename_all(tolower)
-
-  if (isTRUE("human" %in% names(final_table))){
-
-    orig_d2 <- original_data %>%
-      dplyr::select(-id, -target, -response, -human)
-
-    ft <- final_table %>%
-      dplyr::select(human, count_target) %>%
-      dplyr::mutate(equal = human == count_target)
-    ft <- cbind(original_data$id, original_data$target, original_data$response,
-                ft, orig_d2) %>%
-      stats::setNames(c("id", "target", "response", "human", "autoscore", "equal",
-                        names(orig_d2)))
-  } else {
-
-    orig_d2 <- original_data %>%
-      dplyr::select(-id, -target, -response)
-
-    ft <- final_table %>%
-      dplyr::select(count_target)
-    ft <- cbind(original_data$id, original_data$target, original_data$response,
-                ft, orig_d2) %>%
-      stats::setNames(c("id", "target", "response", "autoscore",
-                        names(orig_d2)))
-  }
-
-  if (output == "text"){
-    ft
-  }
-}
-
-error_check_alternate_df <- function(alternate_df){
-  if (!is.null(alternate_df)){
-    stopifnot(is.data.frame(alternate_df) | is.matrix(alternate_df))
-  }
-}
 
 
-error_check_rules <- function(...){
-  rules <- list(...)
-
-  for (i in seq_along(rules)){
-    if (!is.logical(rules[[i]])){
-      stop(paste(names(rules)[i], "must be either TRUE or FALSE"), call. = FALSE)
-    }
-  }
-}
 
 
-## Infix operator (null-default)
-`%||%` <- purrr::`%||%`
 
 
-#' re-export magrittr pipe operator
-#'
-#' @importFrom magrittr %>%
-#' @name %>%
-#' @rdname pipe
-#' @export
-NULL
-
-## From tidyverse package
-text_col <- function(x) {
-  # If RStudio not available, messages already printed in black
-  if (!rstudioapi::isAvailable()) {
-    return(x)
-  }
-
-  if (!rstudioapi::hasFun("getThemeInfo")) {
-    return(x)
-  }
-
-  theme <- rstudioapi::getThemeInfo()
-
-  if (isTRUE(theme$dark)) crayon::white(x) else crayon::black(x)
-
-}
-
-autoscore_version <- function(x) {
-  version <- as.character(unclass(utils::packageVersion(x))[[1]])
-  crayon::italic(paste0(version, collapse = "."))
-}
-
-search_conflicts <- function(path = search()){
-
-  ## Search for conflicts
-  confs <- conflicts(path,TRUE)
-  ## Grab those with the autoscore package
-  autoscore_conflicts <- confs$`package:autoscore`
-
-  ## Find which packages have those functions that are conflicted
-  if (length(autoscore_conflicts) != 0){
-    other_conflicts <- list()
-    for (i in autoscore_conflicts){
-      other_conflicts[[i]] <- lapply(confs, function(x) any(grepl(i, x))) %>%
-        do.call("rbind", .) %>%
-        data.frame %>%
-        setNames(c("conflicted")) %>%
-        tibble::rownames_to_column() %>%
-        .[.$conflicted == TRUE &
-            .$rowname != "package:autoscore",]
-    }
-  } else {
-    other_conflicts <- data.frame()
-  }
-  other_conflicts
-}

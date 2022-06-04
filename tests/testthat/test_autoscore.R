@@ -56,7 +56,8 @@ d <- tibble::tribble(
   6, "junkyard", "junk yard", 0,
   7, "junk yard", "junkyard", 1,
   8, "The matches are on the shelf", "23  the matches are on the shelf", 6,
-  9, "The puppy played with a ball", "1  x", 0
+  9, "The puppy played with a ball", "1  x", 0,
+  10, "One two three", "1 2 3", 3
 )
 
 autoscored <- autoscore::autoscore(d, alternate_df,
@@ -64,11 +65,12 @@ autoscored <- autoscore::autoscore(d, alternate_df,
                                    tense_rule = TRUE,
                                    root_word_rule = TRUE,
                                    a_the_rule = TRUE,
+                                   number_text_rule = TRUE,
                                    output = "text")
 
 testthat::expect_s3_class(autoscored,
                           "data.frame")
-testthat::expect_equal(autoscored$equal, rep(TRUE, 9))
+testthat::expect_equal(autoscored$equal, rep(TRUE, 10))
 
 autoscored2 <- autoscore::autoscore(d, alternate_df,
                                    plural_rule = TRUE,
@@ -79,4 +81,4 @@ autoscored2 <- autoscore::autoscore(d, alternate_df,
 
 testthat::expect_s3_class(autoscored2,
                           "data.frame")
-testthat::expect_equal(autoscored2$equal, c(rep(TRUE, 6), rep(FALSE, 1), rep(TRUE, 2)))
+testthat::expect_equal(autoscored2$equal, c(rep(TRUE, 6), FALSE, rep(TRUE, 2), FALSE))
