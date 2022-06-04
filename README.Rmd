@@ -32,18 +32,19 @@ devtools::load_all()
 - *Sarah E. Yoho*
 
 
-The purpose of `autoscore` is to automatically score word identification in speech perception research, such as studies involving listener understanding of speech in background noise or disordered speech. The article first presenting the program has been cited in 20 peer-reviewed publications as of June 2022 [see Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073).
+The purpose of `autoscore` is to automatically score word identification in speech perception research, such as studies involving listener understanding of speech in background noise or disordered speech. The article first presenting the program has been cited in 20 peer-reviewed publications as of June 2022 ([see Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073)).
 
-The program uses a flexible number of rules that determine whether a response set of words (i.e., listener transcriptions) match a target set of words (i.e., speech corpus). At the most basic level, Autoscore counts words in the listener transcript as correct if they match the words in the target phrase exactly (regardless of word order). Individual rules can be applied or removed, depending on the needs of researcher and the scoring rules of the research lab. Examples of rules available in Autoscore include the ability to count as correct substitutions of articles (A for The) or differences in plural or tense (adding -s or -ed to a word). Additional rules can be added by the researcher as needed.
+The program uses a flexible number of rules that determine whether a response set of words (i.e., listener transcriptions) match a target set of words (i.e., speech corpus). At the most basic level, Autoscore counts words in the listener transcript as correct if they match the words in the target phrase exactly (regardless of word order). Individual rules can be applied or removed, depending on the needs of researcher and the scoring rules of the research lab. Examples of rules available in Autoscore include the ability to count as correct substitutions of articles ("a" for "the") or differences in plural or tense (adding -s or -ed to a word). Additional rules can be added by the researcher as needed.
 
 The rule options are categorized into either spelling rules or grammar rules.
 
 #### Spelling Rules
 
-1. `acceptable_spell_rule`: Response word counted correct if it is a homophone or common misspelling of the target word, according to a preloaded default acceptable spelling list (contains over 300 common acceptable spellings). User can also download the default acceptable spelling list, add/remove items, and upload for automation. Response word counted correct if is on the acceptable spelling list. Default is `FALSE`.
+1. `acceptable_spell_rule`: Response word counted correct if it is a homophone or common misspelling of the target word, according to a preloaded default acceptable spelling list (contains over 300 common acceptable spellings). User can also download the default acceptable spelling list, add/remove items, and upload for automation. Response word counted correct if is on the acceptable spelling list. This rule is activated by providing the acceptable spelling list. Default is `FALSE`.
 2. `root_word_rule`: Response word counted correct if the target word (e.g. ‘day’) is embedded at either the beginning (e.g. ‘daybreak’) of the target word. Default is `FALSE`.
 3. `double_letter_rule`: Response word counted correct if it omitted a double letter within a word (e.g. ‘atack’ matches ‘attack’) or added an unnecessary double letter (e.g. ‘occassion’ matches ‘occasion’). Default is `FALSE`.
 4. `number_text_rule`: Response word counted correct if using actual numbers (e.g. 1, 2, 100) instead of the spelled out version (e.g. one, two, one hundred). Default is `FALSE`.
+4. `contractions_rule`: Response word counted correct if using the contraction of the target (e.g., target is "she will" and the response is "she'll"). This rule is activated by providing contractions to use (there is a default list provided). Default is `FALSE`.
 
 #### Grammar Rules
 
@@ -63,7 +64,7 @@ The API of the `R` package is simple. A single call to `autoscore()` with the fo
 - `match_position_basic()` -- This function is the workhorse of the package. It takes the cleaned data and does three main things: 1) applies all the rules except for the `position_rule`, 2) finds the matches between the responses and the targets, and 3) reports how far away the matches are from each other.
 - `count_matches()` -- Finally, this function takes the information from `match_position_basic()` and counts the number of matches based on the `position_rule`.
 
-Beyond the main analysis when using `autoscore()`, we can also call `pwc()` to get the percent words correct (based on the number of target words) for each observation.
+Beyond the main analysis when using `autoscore()`, we can also call `pwc()` to get the percent words correct (based on the number of target words) for each id.
 
 
 ## Use of the Online Tool
@@ -134,10 +135,10 @@ example_data %>%
   pwc(id)
 ```
 
-As of `autoscore 0.5.0` two new rules can also be used: `number_text_rule` (changes numbers like 1 or 2 to "one" or "two") and `contractions_df` (which, when applied, adjusts for contraction words). There is also a new function called `compound_fixer()` that allows you to adjust compound words the way you want. The example below shows all three of these new features together. For the `compound_fixer()`, we want "junk yard" to become "junkyard" and "break fast" to become "breakfast". These words are not in the default list so we add them with the `comp` argument. The `human` column is the correct number so we can compare autoscore's results with it.
+As of `autoscore 0.5.0` two new rules can also be used: `number_text_rule` (changes numbers like 1 or 2 to "one" or "two") and `contractions_df` (which, when applied, adjusts for contraction words). There is also a new function called `compound_fixer()` that allows you to adjust compound words the way you want. The example below shows all three of these new features together. To start we make a fake data set with some good examples of things we want to fix.
 
 ```{r}
-tibble::tribble(
+small_example <- tibble::tribble(
   ~id, ~target, ~response, ~human,
   1, "the coin ate it", "a coins for it", 1,
   2, "beat the clock", "beets the clock", 2,
@@ -151,7 +152,13 @@ tibble::tribble(
   10, "One two three", "1 2 3", 3,
   11, "Hide one thing", "hide 1", 2,
   12, "She will eat", "She'll eat", 3
-) %>%
+)
+```
+
+Then, using this data, we apply the compound fixer function and the number and contraction rules. For the `compound_fixer()`, we want "junk yard" to become "junkyard" and "break fast" to become "breakfast". These words are not in the default list so we add them with the `comp` argument. The `human` column is the correct number so we can compare autoscore's results with it.
+
+```{r}
+small_example %>% 
   dplyr::mutate(response = compound_fixer(response, comp = c("junkyard" = "junk yard", "breakfast" = "break fast"))) %>% 
   autoscore(number_text_rule = TRUE,
             contractions_df = autoscore::contractions_df) 
