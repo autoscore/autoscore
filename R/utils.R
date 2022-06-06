@@ -21,6 +21,7 @@ split_clean <- function(d, contractions_df){
 
   if (!is.null(contractions_df)){
     d$response <- contractions_fun(d$response, contractions_df)
+    d$target <- contractions_fun(d$target, contractions_df)
   }
 
   d$target <- furniture::washer(d$target, is.na, value = "")
