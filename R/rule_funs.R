@@ -31,10 +31,17 @@ numbers_fun <- function(x, use = TRUE){
   })
 }
 
+full_word <- function(x){
+  paste0("\\b", x, "\\b")
+}
 
 contractions_fun <- function(x, contraction_list){
   for (i in 1:nrow(contraction_list)){
-    x = stringr::str_replace(x, contraction_list$contraction[i], contraction_list$replacement[i])
+    x = stringr::str_replace(
+      x,
+      full_word(contraction_list$contraction[i]),
+      contraction_list$replacement[i]
+    )
   }
   x
 }

@@ -20,7 +20,11 @@ split_clean <- function(d, contractions_df){
   d <- select_cols(d)
 
   if (!is.null(contractions_df)){
-    d$response <- contractions_fun(d$response, contractions_df)
+    contractions_df$contraction <- stringr::str_to_lower(contractions_df$contraction)
+    contractions_df$replacement <- stringr::str_to_lower(contractions_df$replacement)
+    contractions_df = unique(contractions_df)
+    d$response <- contractions_fun(stringr::str_to_lower(d$response), contractions_df)
+    d$target <- contractions_fun(stringr::str_to_lower(d$target), contractions_df)
   }
 
   d$target <- furniture::washer(d$target, is.na, value = "")
