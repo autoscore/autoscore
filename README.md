@@ -361,6 +361,24 @@ small_example %>%
 #> 12         3  TRUE
 ```
 
+Unfortunately, `autoscore` double counts words that appear twice in a
+single target sentence. Many sentences in the field do not have this
+issue but some do. For those that do, you can use the new
+`double_word_detect()` function to find the targets that have the double
+words. For example:
+
+``` r
+target = c(
+  "we will get to know these players as we go along",
+  "according to the rules, you shouldn't end any sentence with a preposition",
+  "it will only work if it will do work"
+)
+double_word_detect(target)
+#> [1] "we"             ""               "it, will, work"
+```
+
+In these cases, a simple adjustment (e.g., minus 1) can fix it.
+
 ### Learn More
 
 For more information, contact <autoscorehelp@gmail.com>.
