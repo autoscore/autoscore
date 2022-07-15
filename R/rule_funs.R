@@ -31,6 +31,17 @@ numbers_fun <- function(x, use = TRUE){
   })
 }
 
+extract_numbers_fun <- function(x){
+  x <- stringr::str_extract(x, "[0-9]+")
+  furniture::washer(x, is.na, value = " ")
+}
+
+replace_numbers <- function(x){
+  nums = extract_numbers_fun(x)
+  nums_words = numbers_fun(nums)
+  stringr::str_replace(x, nums, nums_words)
+}
+
 full_word <- function(x){
   paste0("\\b", x, "\\b")
 }
