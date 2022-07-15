@@ -170,7 +170,8 @@ Unfortunately, `autoscore` double counts words that appear twice in a single tar
 target = c(
   "we will get to know these players as we go along",
   "according to the rules, you shouldn't end any sentence with a preposition",
-  "it will only work if it will do work"
+  "it will only work if it will do work",
+  "nope"
 )
 double_word_detect(target)
 ```

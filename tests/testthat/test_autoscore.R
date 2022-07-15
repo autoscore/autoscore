@@ -89,3 +89,34 @@ autoscored2 <- autoscore::autoscore(d, alternate_df,
 testthat::expect_s3_class(autoscored2,
                           "data.frame")
 testthat::expect_equal(autoscored2$equal, c(rep(TRUE, 6), FALSE, TRUE, TRUE, FALSE, FALSE))
+
+testthat::expect_equal({
+  target = c(
+    "we will get to know these players as we go along",
+    "according to the rules, you shouldn't end any sentence with a preposition",
+    "it will only work if it will do work",
+    "nope"
+  )
+  double_word_detect(target)
+  },
+  c("we", NA, "it, will, work", NA)
+)
+
+testthat::expect_equal({
+  d <- tibble::tribble(
+    ~id, ~target, ~response, ~human,
+    1, "The score was the goal", "The score was a goal", 4,
+    2, "The score was the goal", "The score was the goal", 5,
+    3, "The score was a goal", "The score was a goal", 5,
+    4, "The score was a goal", "The score was the goal", 4,
+    5, "The score was the goal", "The the score was the goal", 5,
+    6, "The they score was the goal", "The score was the goal", 5
+  )
+  autoscore(d) %>%
+    dplyr::pull(equal)
+  },
+  rep(TRUE, 6)
+)
+
+
+

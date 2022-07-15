@@ -77,7 +77,9 @@ autoscore <- function(.data,
                          suffix_rule = suffix_rule,
                          double_letter_rule = double_letter_rule,
                          number_text_rule = number_text_rule) %>%
-    count_matches()
+    count_matches() %>%
+    dplyr::mutate(count_target = count_target + rep_word) %>%
+    dplyr::select(-rep_word)
 
   if (output == "none"){
     counts
