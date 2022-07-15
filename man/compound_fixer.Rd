@@ -4,14 +4,12 @@
 \alias{compound_fixer}
 \title{compound_fixer}
 \usage{
-compound_fixer(response, comp = NULL, default = TRUE)
+compound_fixer(response, comp)
 }
 \arguments{
 \item{response}{the response variable}
 
-\item{comp}{a named vector of compounds (e.g., \code{c("rose bush" = "rosebush")} where the response is "rose bush" and the desired change is "rosebush"). If \code{comp =NULL} then a default list is used only.}
-
-\item{default}{should the default list be used? (default = TRUE)}
+\item{comp}{a named vector of compounds (e.g., \code{c("rose bush" = "rosebush")} where the response is "rosebush" and the desired change is "rose bush").}
 }
 \description{
 This function uses a default list of compound words (common to the SIT) and replaces the response where appropriate to match the right usage.
