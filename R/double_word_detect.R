@@ -14,6 +14,7 @@ double_word_detect <- function(target){
 
   sapply(targ, function(x){
     count = vector(length = length(x))
+    if (length(x) <= 1) return(NA)
     for (i in 1:(length(x)-1)){
       for (j in seq(up_to(i+1, length(x)), length(x))){
         if (x[i] == x[j]){
@@ -25,11 +26,11 @@ double_word_detect <- function(target){
     if (sum(count) > 0)
       paste(unique(x[count]), collapse = ", ")
     else
-      ""
+      NA
   })
 }
 
-up_to = function(x, top){
+up_to <- function(x, top){
   if (x > top)
     top
   else

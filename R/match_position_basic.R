@@ -13,11 +13,12 @@ match_position_basic <- function(d, alternate_df,
     plural_add_rule <- FALSE
   }
 
-  ## alternate_spell_rule
+  # alternate_spell_rule
   d <- alternate_fun(d, alternate_df,
                      plural_rule, plural_add_rule,
                      tense_rule, tense_add_rule)
 
+  # apply other rules
   d <- d %>%
     dplyr::mutate(target = purrr::map(target, ~{
       double_letter_fun(.x, double_letter_rule) %>%
