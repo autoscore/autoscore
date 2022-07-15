@@ -2,6 +2,8 @@
 
     ## ℹ Loading autoscore
 
+    ## Warning: package 'testthat' was built under R version 4.1.2
+
     ## ── autoscore 0.5.0 ─────────────────────────────────────────────────────────────
     ## ✔ autoscore attached
     ## ✔ No potential conflicts found
@@ -168,7 +170,7 @@ example_data %>%
 #> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 #> # A tibble: 40 × 6
 #>       id target                      response              human autoscore equal
-#>    <dbl> <chr>                       <chr>                 <dbl>     <int> <lgl>
+#>    <dbl> <chr>                       <chr>                 <dbl>     <dbl> <lgl>
 #>  1     1 mate denotes a judgement    made the dinner in it     1         0 FALSE
 #>  2     1 rampant boasting captain    rubbed against the c…     1         1 TRUE 
 #>  3     1 resting older earring       resting alert hearing     1         1 TRUE 
@@ -190,7 +192,7 @@ example_data %>%
   as.tibble()
 #> # A tibble: 40 × 6
 #>       id target                      response              human autoscore equal
-#>    <dbl> <chr>                       <chr>                 <dbl>     <int> <lgl>
+#>    <dbl> <chr>                       <chr>                 <dbl>     <dbl> <lgl>
 #>  1     1 mate denotes a judgement    made the dinner in it     1         0 FALSE
 #>  2     1 rampant boasting captain    rubbed against the c…     1         1 TRUE 
 #>  3     1 resting older earring       resting alert hearing     1         1 TRUE 
@@ -224,7 +226,7 @@ example_data %>%
 #>  9     1 <chr [5]> <chr [5]>     2 <int [5]>       <int [5]>         <lgl [5]>  
 #> 10     1 <chr [4]> <chr [4]>     1 <int [4]>       <int [4]>         <lgl [4]>  
 #> # … with 30 more rows, and 3 more variables: diff_response <list>,
-#> #   count_target <int>, count_response <int>
+#> #   count_target <dbl>, count_response <int>
 ```
 
 To use the acceptable spelling rule, let’s use the default provided in
@@ -260,7 +262,7 @@ example_data %>%
   as.tibble()
 #> # A tibble: 40 × 6
 #>       id target                      response              human autoscore equal
-#>    <dbl> <chr>                       <chr>                 <dbl>     <int> <lgl>
+#>    <dbl> <chr>                       <chr>                 <dbl>     <dbl> <lgl>
 #>  1     1 mate denotes a judgement    made the dinner in it     1         0 FALSE
 #>  2     1 rampant boasting captain    rubbed against the c…     1         1 TRUE 
 #>  3     1 resting older earring       resting alert hearing     1         1 TRUE 
@@ -360,24 +362,6 @@ small_example %>%
 #> 11         2  TRUE
 #> 12         3  TRUE
 ```
-
-Unfortunately, `autoscore` double counts words that appear twice in a
-single target sentence. Many sentences in the field do not have this
-issue but some do. For those that do, you can use the new
-`double_word_detect()` function to find the targets that have the double
-words. For example:
-
-``` r
-target = c(
-  "we will get to know these players as we go along",
-  "according to the rules, you shouldn't end any sentence with a preposition",
-  "it will only work if it will do work"
-)
-double_word_detect(target)
-#> [1] "we"             ""               "it, will, work"
-```
-
-In these cases, a simple adjustment (e.g., minus 1) can fix it.
 
 ### Learn More
 
