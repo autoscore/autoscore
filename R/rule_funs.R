@@ -20,10 +20,10 @@ is_number_in_text = function(x){
   stringr::str_detect(x, "\\d+") & !stringr::str_detect(x, "[A-Za-z]")
 }
 
-numbers_fun <- function(x, use = TRUE){
+numbers_fun <- function(x){
   purrr::map_chr(x, function(y) {
     num = is_number_in_text(y)
-    if (isTRUE(use) & isTRUE(num)){
+    if (isTRUE(num)){
       english::words(as.integer(y))
     } else {
       y
@@ -32,14 +32,20 @@ numbers_fun <- function(x, use = TRUE){
 }
 
 extract_numbers_fun <- function(x){
-  x <- stringr::str_extract(x, "[0-9]+")
-  furniture::washer(x, is.na, value = " ")
+  stringr::str_extract_all(x, "[0-9]+")
 }
 
-replace_numbers <- function(x){
+replace_numbers <- function(x, use = TRUE){
   nums = extract_numbers_fun(x)
-  nums_words = numbers_fun(nums)
-  stringr::str_replace(x, nums, nums_words)
+  nums_words = purrr::map(nums, ~numbers_fun(.x))
+  if (length(nums) == 0) return(x)
+
+  for (i in seq_along(nums)){
+    for (j in seq_along(nums_words[[i]])){
+      x[i] = stringr::str_replace(x[i], nums[[i]][[j]], nums_words[[i]][[j]])
+    }
+  }
+  x
 }
 
 full_word <- function(x){

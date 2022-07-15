@@ -45,7 +45,8 @@ split_clean <- function(d, contractions_df, number_text_rule){
     stringr::str_trim() %>%
     stringr::str_squish()
 
-  d$response <- if_else(extract_numbers_fun(d$response) == "", d$response, replace_numbers(d$response))
+  if (isTRUE(number_text_rule))
+    d$response <- if_else(extract_numbers_fun(d$response) == "", d$response, replace_numbers(d$response))
 
   # double word
   d <- rep_word_fun(d)
