@@ -12,7 +12,7 @@ rep_word_fun <- function(data){
   data <- dplyr::mutate(
     data,
     doubled = dplyr::case_when(
-      ! is.na(rep_word_target) ~ stringr::str_extract_all(response, rep_word_target)
+      ! is.na(rep_word_target) ~ stringr::str_extract_all(response, paste0("\\b", rep_word_target, "\\b"))
     ))
   data <- dplyr::mutate(data, double_length = length(doubled))
   data <- dplyr::ungroup(data)
