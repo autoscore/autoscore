@@ -3,8 +3,7 @@ match_position_basic <- function(d, alternate_df,
                                  plural_rule, plural_add_rule,
                                  tense_rule, tense_add_rule,
                                  a_the_rule, root_word_rule,
-                                 suffix_rule, double_letter_rule,
-                                 number_text_rule, contraction_list){
+                                 suffix_rule, double_letter_rule){
 
   if (isTRUE(suffix_rule)){
     tense_rule <- FALSE
@@ -23,14 +22,12 @@ match_position_basic <- function(d, alternate_df,
     dplyr::mutate(target = purrr::map(target, ~{
       double_letter_fun(.x, double_letter_rule) %>%
         a_the_fun(a_the_rule) %>%
-        suffix_fun(suffix_rule) %>%
-        numbers_fun(number_text_rule)
+        suffix_fun(suffix_rule)
     })) %>%
     dplyr::mutate(response = purrr::map(response, ~{
       double_letter_fun(.x, double_letter_rule) %>%
         a_the_fun(a_the_rule) %>%
-        suffix_fun(suffix_rule) %>%
-        numbers_fun(number_text_rule)
+        suffix_fun(suffix_rule)
     })) %>%
     dplyr::mutate(diff_target_pre = purrr::map2(target, response, ~{
       pasttense_plurals_fun(.x, .y, tense_rule, tense_add_rule, plural_rule, plural_add_rule, root_word_rule)

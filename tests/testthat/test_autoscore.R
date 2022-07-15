@@ -110,12 +110,14 @@ testthat::expect_equal({
     3, "The score was a goal", "The score was a goal", 5,
     4, "The score was a goal", "The score was the goal", 4,
     5, "The score was the goal", "The the score was the goal", 5,
-    6, "The they score was the goal", "The score was the goal", 5
+    6, "The they score was the goal", "The score was the goal", 5,
+    7, "A patient seriously hurt his ankle in a motorcycle accident", "My patient seriously hurt his ankle in a motorcycle accident", 9,
+    8, "There were seven hundred things", "There were 700 stuff", 4
   )
-  autoscore(d) %>%
+  autoscore(d, number_text_rule = TRUE) %>%
     dplyr::pull(equal)
   },
-  rep(TRUE, 6)
+  rep(TRUE, 8)
 )
 
 

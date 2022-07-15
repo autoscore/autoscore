@@ -16,7 +16,7 @@ select_cols <- function(d){
 }
 
 # Get data ready to have rules applied to it
-split_clean <- function(d, contractions_df){
+split_clean <- function(d, contractions_df, number_text_rule){
   d <- select_cols(d)
   d$target <- stringr::str_to_lower(d$target)
   d$response <- stringr::str_to_lower(d$response)
@@ -29,29 +29,34 @@ split_clean <- function(d, contractions_df){
     d$target <- contractions_fun(d$target, contractions_df)
   }
 
-  # double word
-  d <- rep_word_fun(d)
-
-  # finish cleaning up words
+  # remove NAs
   d$target <- furniture::washer(d$target, is.na, value = "")
   d$response <- furniture::washer(d$response, is.na, value = "")
+
+  # clean up
   d$target <- d$target %>%
     stringr::str_replace_all(pattern = "-", replacement = " ") %>%
     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
-    stringr::str_replace_all(pattern = "2", replacement = "two") %>%
-    stringr::str_replace_all(pattern = "4", replacement = "four") %>%
     stringr::str_trim() %>%
-    stringr::str_split(pattern = " ")
+    stringr::str_squish()
   d$response <- d$response %>%
     stringr::str_replace_all(pattern = "-", replacement = " ") %>%
     stringr::str_replace_all(pattern = "[[:punct:]]", replacement = "") %>%
-    stringr::str_replace_all(pattern = "2", replacement = "two") %>%
-    stringr::str_replace_all(pattern = "4", replacement = "four") %>%
     stringr::str_trim() %>%
-    stringr::str_split(pattern = " ")
+    stringr::str_squish()
+
+  if (isTRUE(number_text_rule))
+    d$response <- if_else(extract_numbers_fun(d$response) == "", d$response, replace_numbers(d$response))
+
+  # double word
+  d <- rep_word_fun(d)
+
+  d$target <- stringr::str_split(d$target, pattern = " ")
+  d$response <- stringr::str_split(d$response, pattern = " ")
 
   d
 }
+
 
 # Function to match words
 match_fun <- function(x, y, root_word_rule) {

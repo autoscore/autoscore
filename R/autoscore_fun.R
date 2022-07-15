@@ -66,7 +66,9 @@ autoscore <- function(.data,
                     double_letter_rule, number_text_rule)
   error_check_alternate_df(acceptable_df)
 
-  counts <- split_clean(.data, contractions_df = contractions_df) %>%
+  counts <- split_clean(.data,
+                        contractions_df = contractions_df,
+                        number_text_rule = number_text_rule) %>%
     match_position_basic(alternate_df = acceptable_df,
                          plural_rule = plural_rule,
                          plural_add_rule = plural_add_rule,
@@ -75,8 +77,7 @@ autoscore <- function(.data,
                          a_the_rule = a_the_rule,
                          root_word_rule = root_word_rule,
                          suffix_rule = suffix_rule,
-                         double_letter_rule = double_letter_rule,
-                         number_text_rule = number_text_rule) %>%
+                         double_letter_rule = double_letter_rule) %>%
     count_matches() %>%
     dplyr::mutate(count_target = count_target + rep_word) %>%
     dplyr::select(-rep_word)
