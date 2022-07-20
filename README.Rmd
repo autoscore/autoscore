@@ -45,6 +45,7 @@ The rule options are categorized into either spelling rules or grammar rules.
 3. `double_letter_rule`: Response word counted correct if it omitted a double letter within a word (e.g. ‘atack’ matches ‘attack’) or added an unnecessary double letter (e.g. ‘occassion’ matches ‘occasion’). Default is `FALSE`.
 4. `number_text_rule`: Response word counted correct if using actual numbers (e.g. 1, 2, 100) instead of the spelled out version (e.g. one, two, one hundred). Default is `FALSE`.
 4. `contractions_rule`: Response word counted correct if using the contraction of the target (e.g., target is "she will" and the response is "she'll"). This rule is activated by providing contractions to use (there is a default list provided). Default is `FALSE`.
+5. `compound_rule`: Response word counted correct if matching a specified compound. This rule is activated by providing a named vector (e.g., `c("junkyard" = "junk yard")` where "junkyard" is the target but some responses were "junk yard").
 
 #### Grammar Rules
 
@@ -95,14 +96,14 @@ First, let's use all the defaults and look at the first 10 rows of the output.
 ```{r}
 example_data %>%
   autoscore() %>%   ## using all the defaults
-  as.tibble()       ## to shorted output
+  as_tibble()       ## to shorted output
 ```
 
 Next, let's change some of the rules.
 ```{r}
 example_data %>%
   autoscore(plural_rule = FALSE, tense_rule = FALSE) %>%
-  as.tibble()
+  as_tibble()
 ```
 
 We can also change the output type to "none" to get all the data from the computation.
@@ -122,7 +123,7 @@ Using this, we can provide it to the `autoscore()` function with the `acceptable
 ```{r}
 example_data %>%
   autoscore::autoscore(acceptable_df = autoscore::acceptable_spellings) %>%
-  as.tibble()
+  as_tibble()
 ```
 
 In each of these examples, it is clear that the human and "autoscore" agree the majority of the time. The times that they disagree, it is usually predictably a human error or a subjective judgement that the researcher will have to consider (for example by including alternate spellings of words as we just demonstrated).

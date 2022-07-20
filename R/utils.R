@@ -16,7 +16,7 @@ select_cols <- function(d){
 }
 
 # Get data ready to have rules applied to it
-split_clean <- function(d, contractions_df, number_text_rule){
+split_clean <- function(d, contractions_df, number_text_rule, compound_rule){
   d <- select_cols(d)
   d$target <- stringr::str_to_lower(d$target)
   d$response <- stringr::str_to_lower(d$response)
@@ -47,6 +47,9 @@ split_clean <- function(d, contractions_df, number_text_rule){
 
   if (isTRUE(number_text_rule))
     d$response <- if_else(extract_numbers_fun(d$response) == "", d$response, replace_numbers(d$response))
+
+  if (!is.null(compound_rule))
+    d$response <- compound_fixer(d$response, comp = compound_rule)
 
   # double word
   d <- rep_word_fun(d)
