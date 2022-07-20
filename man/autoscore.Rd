@@ -18,6 +18,7 @@ autoscore(
   suffix_rule = FALSE,
   number_text_rule = FALSE,
   contractions_df = NULL,
+  compound_rule = NULL,
   output = "text"
 )
 }
@@ -45,6 +46,8 @@ autoscore(
 \item{number_text_rule}{should the numbers (e.g., 1, 2, 3) be used in word form (e.g., one, two, three) in the scoring? (default = `FALSE`)}
 
 \item{contractions_df}{list of contractions to change (e.g., "She'll" changed to "She will"). The built-in list of contractions can be seen with \code{data(contractions_df)}.}
+
+\item{compound_rule}{named vector of `c("correct" = "original")` form. For instance, "junkyard" is the target form but some responses were "junk yard". To fix, we can include a vector like `c("junkyard" = "junk yard")`.}
 
 \item{output}{the output type for the autoscore table; current options are "text" (provides a cleaned data set) and "none" (which provides all data); others to follow soon}
 }
@@ -83,6 +86,8 @@ example_data \%>\%
                        plural_rule = FALSE,
                        tense_rule = FALSE)
 
-
+comp = c("junkyard" = "junk yard")
+example_data \%>\%
+  autoscore::autoscore(compound_rule = comp)
 
 }
