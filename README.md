@@ -72,6 +72,10 @@ rules.
     response is “she’ll”). This rule is activated by providing
     contractions to use (there is a default list provided). Default is
     `FALSE`.
+6.  `compound_rule`: Response word counted correct if matching a
+    specified compound. This rule is activated by providing a named
+    vector (e.g., `c("junkyard" = "junk yard")` where “junkyard” is the
+    target but some responses were “junk yard”).
 
 #### Grammar Rules
 
@@ -162,12 +166,7 @@ output.
 ``` r
 example_data %>%
   autoscore() %>%   ## using all the defaults
-  as.tibble()       ## to shorted output
-#> Warning: `as.tibble()` was deprecated in tibble 2.0.0.
-#> Please use `as_tibble()` instead.
-#> The signature and semantics have changed, see `?as_tibble`.
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+  as_tibble()       ## to shorted output
 #> # A tibble: 40 × 6
 #>       id target                      response              human autoscore equal
 #>    <dbl> <chr>                       <chr>                 <dbl>     <dbl> <lgl>
@@ -189,7 +188,7 @@ Next, let’s change some of the rules.
 ``` r
 example_data %>%
   autoscore(plural_rule = FALSE, tense_rule = FALSE) %>%
-  as.tibble()
+  as_tibble()
 #> # A tibble: 40 × 6
 #>       id target                      response              human autoscore equal
 #>    <dbl> <chr>                       <chr>                 <dbl>     <dbl> <lgl>
@@ -259,7 +258,7 @@ Using this, we can provide it to the `autoscore()` function with the
 ``` r
 example_data %>%
   autoscore::autoscore(acceptable_df = autoscore::acceptable_spellings) %>%
-  as.tibble()
+  as_tibble()
 #> # A tibble: 40 × 6
 #>       id target                      response              human autoscore equal
 #>    <dbl> <chr>                       <chr>                 <dbl>     <dbl> <lgl>
