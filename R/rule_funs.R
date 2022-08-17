@@ -48,7 +48,10 @@ replace_numbers <- function(x, use = TRUE){
   x
 }
 
-full_word <- function(x){
+full_word <- function(x, sep = FALSE){
+  if (isTRUE(sep)){
+    x = str_split(x, ", ")[[1]]
+  }
   paste0("\\b", x, "\\b")
 }
 

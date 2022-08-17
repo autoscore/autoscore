@@ -48,6 +48,7 @@
 #' @importFrom furniture washer
 #' @importFrom stats setNames
 #' @importFrom stats na.omit
+#' @importFrom purrr map_dbl
 #'
 #' @export
 autoscore <- function(.data,

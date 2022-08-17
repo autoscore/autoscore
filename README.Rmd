@@ -30,7 +30,7 @@ devtools::load_all()
 - *Tyson S. Barrett*
 - *Stephanie A. Borrie*
 - *Sarah E. Yoho*
-
+- *Kaila Stipancic*
 
 The purpose of `autoscore` is to automatically score word identification in speech perception research, such as studies involving listener understanding of speech in background noise or disordered speech. The article first presenting the program has been cited in 20 peer-reviewed publications as of June 2022 ([see Google Scholar](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=1603911154801242073)).
 
