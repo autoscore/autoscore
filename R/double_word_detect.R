@@ -19,7 +19,7 @@ double_word_detect <- function(target){
       for (j in seq(up_to(i+1, length(x)), length(x))){
         if (x[i] == x[j]){
           count[i] = TRUE
-          x[j] = i
+          x[j] = j
         }
       }
     }
