@@ -124,4 +124,20 @@ testthat::expect_equal({
 )
 
 
+testthat::expect_equal({
+  d <- tibble::tribble(
+    ~id, ~target, ~response, ~human,
+    11, "You have to feed yourself with information every day", "You have to feed yourself with information everyday", 9,
+    12, "The wait was", "the weight xxxx", 2,
+    13, "I have to hide it because I have young children", "I have to hit it", 4,
+    14, "He will share his life's work, his happiness, and his problems with them", "he will share his life's work: his happiness and his problems with them", 13,
+    15, "Tests resulted in the removal of many foods from the diets of millions of diabetics", "test results in the removal of many foods from the diets of millions of diabetics", 13
+  )
+  comp <- c("junkyard" = "junk yard", "every day" = "everyday")
+  autoscore(d, number_text_rule = TRUE, compound_rule = comp, acceptable_df = autoscore::acceptable_spellings) %>%
+    dplyr::pull(equal)
+},
+rep(TRUE, 5)
+)
+
 

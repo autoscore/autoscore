@@ -1,6 +1,7 @@
 # deal with repeated words in targets
 rep_word_fun <- function(data){
   data$rep_word_target = double_word_detect(data$target)
+  data$rep_word_response = double_word_detect(data$response)
 
   if (all(is.na(data$rep_word_target))){
     data$rep_word <- 0
@@ -20,6 +21,10 @@ rep_word_fun <- function(data){
   data$length_rep_target <- lengths(str_split(data$rep_word_target, ", "))
   data$rep_word <- ifelse(data$double_length == 1 & ! is.na(data$rep_word_target), -1, 0)
   data$rep_word <- ifelse(data$double_length > 1 & data$length_rep_target > 1, -data$length_rep_target, data$rep_word)
+  data$rep_word <- dplyr::case_when(
+    data$rep_word_target == data$rep_word_response ~ 0,
+    TRUE ~ data$rep_word
+  )
   data <- dplyr::select(data, -doubled, -double_length, -rep_word_target)
   data
 }
