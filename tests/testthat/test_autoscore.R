@@ -114,13 +114,14 @@ testthat::expect_equal({
     7, "A patient seriously hurt his ankle in a motorcycle accident", "My patient seriously hurt his ankle in a motorcycle accident", 9,
     8, "There were seven hundred things", "There were 700 stuff", 4,
     9, "One two three", "1 2 3", 3,
-    10, "Junkyard is far", "Junk yard is far", 3
+    10, "Junkyard is far", "Junk yard is far", 3,
+    11, "The twenties were great", "The 20s were great", 4
   )
   comp <- c("junkyard" = "junk yard")
   autoscore(d, number_text_rule = TRUE, compound_rule = comp) %>%
     dplyr::pull(equal)
-  },
-  rep(TRUE, 10)
+},
+rep(TRUE, 11)
 )
 
 

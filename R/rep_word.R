@@ -1,13 +1,16 @@
 # deal with repeated words in targets
 rep_word_fun <- function(data){
-  data$rep_word_target = double_word_detect(data$target)
-  data$rep_word_response = double_word_detect(data$response)
+  data$rep_word_target <- double_word_detect(data$target)
+  data$rep_word_response <- double_word_detect(data$response)
 
   if (all(is.na(data$rep_word_target))){
     data$rep_word <- 0
     data <- select(data, -rep_word_target)
     return(data)
   }
+
+  data$rep_word_target_n <- stringr::str_extract_all(data$target, full_word(data$rep_word_target))
+  data$rep_word_response_n <- stringr::str_extract_all(data$response, full_word(data$rep_word_response))
 
   data <- dplyr::rowwise(data)
   data <- dplyr::mutate(
@@ -25,7 +28,9 @@ rep_word_fun <- function(data){
     data$rep_word_target == data$rep_word_response ~ 0,
     TRUE ~ data$rep_word
   )
-  data <- dplyr::select(data, -doubled, -double_length, -rep_word_target)
+  diff <- lengths(data$rep_word_target_n) - data$double_length
+  data$rep_word <- ifelse(diff > 0 & lengths(data$rep_word_target_n) > 2, data$rep_word - 1, data$rep_word)
+  data <- dplyr::select(data, -doubled, -double_length, -rep_word_target, -rep_word_target_n, -rep_word_response_n)
   data
 }
 

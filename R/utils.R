@@ -29,6 +29,14 @@ split_clean <- function(d, contractions_df, number_text_rule, compound_rule){
     d$target <- contractions_fun(d$target, contractions_df)
   }
 
+  # remove "x" or "xx"
+  d$response <- stringr::str_remove_all(d$response, full_word("x"))
+  d$response <- stringr::str_remove_all(d$response, full_word("xx"))
+
+  # twenties, thirties, etc.
+  if (isTRUE(number_text_rule))
+    d$response <- numbers_with_s(d$response)
+
   # remove NAs
   d$target <- furniture::washer(d$target, is.na, value = "")
   d$response <- furniture::washer(d$response, is.na, value = "")
