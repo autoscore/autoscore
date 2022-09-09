@@ -48,6 +48,15 @@ replace_numbers <- function(x, use = TRUE){
   x
 }
 
+numbers_with_s <- function(x, use = TRUE){
+  nums = paste0(seq(10, 90, by = 10), "s")
+  words = c("tens", "twenties", "thirties", "forties", "fifties", "sixties", "seventies", "eighties", "nineties")
+  for (i in seq_along(nums)){
+    x <- stringr::str_replace(x, nums[i], words[i])
+  }
+  x
+}
+
 full_word <- function(x, sep = FALSE){
   if (isTRUE(sep)){
     x = str_split(x, ", ")[[1]]
