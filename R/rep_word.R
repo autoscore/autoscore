@@ -29,7 +29,7 @@ rep_word_fun <- function(data){
     TRUE ~ data$rep_word
   )
   diff <- lengths(data$rep_word_target_n) - data$double_length
-  data$rep_word <- ifelse(diff > 0 & lengths(data$rep_word_target_n) > 2, data$rep_word - 1, data$rep_word)
+  data$rep_word <- ifelse(diff > 0 & lengths(data$rep_word_target_n) > 2 & data$double_length > 0, data$rep_word - 1, data$rep_word)
   data <- dplyr::select(data, -doubled, -double_length, -rep_word_target, -rep_word_target_n, -rep_word_response_n)
   data
 }
