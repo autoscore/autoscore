@@ -132,13 +132,14 @@ testthat::expect_equal({
     12, "The wait was", "the weight xxxx", 2,
     13, "I have to hide it because I have young children", "I have to hit it", 4,
     14, "He will share his life's work, his happiness, and his problems with them", "he will share his life's work: his happiness and his problems with them", 13,
-    15, "Tests resulted in the removal of many foods from the diets of millions of diabetics", "test results in the removal of many foods from the diets of millions of diabetics", 13
+    15, "Tests resulted in the removal of many foods from the diets of millions of diabetics", "test results in the removal of many foods from the diets of millions of diabetics", 13,
+    16, "Finally, the dog cut across the circle and jumped back into the wagon.",	"(unintelligible)", 0
   )
   comp <- c("junkyard" = "junk yard", "every day" = "everyday")
   autoscore(d, number_text_rule = TRUE, compound_rule = comp, acceptable_df = autoscore::acceptable_spellings) %>%
     dplyr::pull(equal)
 },
-rep(TRUE, 5)
+rep(TRUE, 6)
 )
 
 
